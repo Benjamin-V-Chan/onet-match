@@ -1,4 +1,4 @@
-# onet-semantic-search
+# onet-match
 
 **Map free text about work to O\*NET occupations.** Job titles, resume
 bullets, job postings, project descriptions, interest statements and skill
@@ -26,7 +26,7 @@ Real outputs of the served model, saved in `outputs/examples/readme_examples.jso
 ## Quickstart
 
 ```bash
-pip install "onet-semantic-search[matching] @ git+https://github.com/Benjamin-V-Chan/onet-semantic-search"
+pip install "onet-match[matching] @ git+https://github.com/Benjamin-V-Chan/onet-match"
 ```
 
 ```python
@@ -38,13 +38,13 @@ for m in result.matches:
 print(result.profile["riasec_code"])      # aggregate interest code, e.g. "RIC"
 ```
 
-The package installs as `onet-semantic-search`, imports as `onet_match` and
-provides the `onet-match` command. The first call downloads the pretrained model bundle (about 0.5 GB) from the
+The package imports as `onet_match` and provides the `onet-match` command.
+The first call downloads the pretrained model bundle (about 0.5 GB) from the
 Hugging Face Hub and caches it.
 
 ```bash
 onet-match match "Excel, QuickBooks, payroll, AP/AR"          # CLI (add --json for JSON)
-pip install "onet-semantic-search[matching,serve] @ git+https://github.com/Benjamin-V-Chan/onet-semantic-search"
+pip install "onet-match[matching,serve] @ git+https://github.com/Benjamin-V-Chan/onet-match"
 onet-match serve --port 8000                                   # REST API
 curl -s localhost:8000/match -H 'content-type: application/json' \
      -d '{"text": "ran the robotics club'\''s CAD team", "top_k": 3}'
@@ -52,7 +52,7 @@ curl -s localhost:8000/match -H 'content-type: application/json' \
 
 REST routes: `POST /match`, `POST /match/batch`, `GET /occupation/{soc}` and
 `GET /health`. The full request and response contract and the Docker setup are
-in [docs/API.md](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/API.md).
+in [docs/API.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/API.md).
 
 ### What each match contains
 
@@ -73,9 +73,9 @@ interests across the matches, weighted by confidence.
 - **Workforce and labor-market analytics.** Batch-code large text collections.
 - **Career counseling tools.** Show the tasks and skills behind a suggestion.
 - **LLM agents.** Ground occupation questions in O\*NET instead of free
-  generation (see [`llms.txt`](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/llms.txt)).
+  generation (see [`llms.txt`](https://github.com/Benjamin-V-Chan/onet-match/blob/main/llms.txt)).
 
-Details and integration patterns: [docs/APPLICATIONS.md](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/APPLICATIONS.md).
+Details and integration patterns: [docs/APPLICATIONS.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/APPLICATIONS.md).
 
 ## Accuracy
 
@@ -96,7 +96,7 @@ saved run in `outputs/runs/`.
   the one that wrote the training text.
 - **Confidence:** temperature-calibrated, ECE 0.037.
 - **Full results:** per-input-type tables, calibration, ablations, learning
-  curves and error analysis are in [docs/RESULTS.md](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/RESULTS.md).
+  curves and error analysis are in [docs/RESULTS.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/RESULTS.md).
 
 ## How it works
 
@@ -121,14 +121,14 @@ flowchart LR
 The validation and test tasks are removed from the occupation documents the
 models search, so no test text leaks into retrieval. Synthetic training and
 test text come from different LLMs. Details are in
-[docs/SYNTHETIC_DATA.md](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/SYNTHETIC_DATA.md).
+[docs/SYNTHETIC_DATA.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/SYNTHETIC_DATA.md).
 
 ## O\*NET data pipeline
 
 The `onet_data_collector` package (`onet-collect`) downloads and verifies O\*NET
 database releases, which needs no credentials. It also wraps O\*NET Web
 Services: keyword search, occupation details and flattened profiles. See
-[docs/COLLECTOR.md](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/COLLECTOR.md).
+[docs/COLLECTOR.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/COLLECTOR.md).
 
 ```bash
 onet-collect bulk download                         # download + verify the latest O*NET database
@@ -139,7 +139,7 @@ onet-match eda | keywords | cluster                # classic analysis: coverage,
 ## Train your own
 
 ```bash
-git clone https://github.com/Benjamin-V-Chan/onet-semantic-search && cd onet-semantic-search
+git clone https://github.com/Benjamin-V-Chan/onet-match && cd onet-match
 pip install -e ".[dev]"
 onet-match matching build-data          # O*NET catalog, labeled pairs, splits
 scripts/matching/reproduce.sh           # every model, ablation and the results report
@@ -148,7 +148,7 @@ onet-match matching bundle "<spec>" --run <run>   # package a model for serving
 
 - **Synthetic text:** `WITH_SYNTH=1 TRAIN_LLM=<model> EVAL_PROVIDER=<provider> EVAL_LLM=<model> scripts/matching/reproduce.sh`
   also generates the messy training and test text, using a different LLM for
-  each. It needs LLM API keys; see [docs/SYNTHETIC_DATA.md](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/SYNTHETIC_DATA.md).
+  each. It needs LLM API keys; see [docs/SYNTHETIC_DATA.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/SYNTHETIC_DATA.md).
 - **Training time:** bge-base took 58 minutes for one epoch on a laptop GPU
   (Apple Silicon, MPS). The exact scripts behind every saved run are in
   `scripts/matching/`.
@@ -174,15 +174,15 @@ In 2026 it was rebuilt around semantic occupation matching, and the former
 ```bibtex
 @software{chan_onet_match,
   author = {Chan, Benjamin},
-  title  = {onet-semantic-search: mapping free text to O*NET occupations},
-  url    = {https://github.com/Benjamin-V-Chan/onet-semantic-search},
+  title  = {onet-match: mapping free text to O*NET occupations},
+  url    = {https://github.com/Benjamin-V-Chan/onet-match},
   year   = {2026}
 }
 ```
 
 ## License and data attribution
 
-The code is MIT-licensed; see [LICENSE](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/LICENSE).
+The code is MIT-licensed; see [LICENSE](https://github.com/Benjamin-V-Chan/onet-match/blob/main/LICENSE).
 
 This product includes information from the O\*NET 31.0 Database by the U.S.
 Department of Labor, Employment and Training Administration (USDOL/ETA), used

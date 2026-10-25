@@ -2,7 +2,7 @@
 
 A small, dependency-light toolkit that turns [O*NET Web Services](https://services.onetcenter.org/)
 data and O*NET database releases into tidy, analysis-ready tables. It ships with
-`onet-semantic-search` and provides the data that the semantic matcher is trained on.
+`onet-match` and provides the data that the semantic matcher is trained on.
 It was a separate repository (`ONET-Data-Collector`) until 2026.
 
 ## What it does
@@ -29,7 +29,7 @@ occupation matcher in this repo uses. See
 ## Install
 
 ```bash
-pip install "onet-semantic-search @ git+https://github.com/Benjamin-V-Chan/onet-semantic-search"   # installs `onet-collect`
+pip install "onet-match @ git+https://github.com/Benjamin-V-Chan/onet-match"   # installs `onet-collect`
 ```
 
 The collector itself needs only `pandas`; its HTTP client is built on the Python

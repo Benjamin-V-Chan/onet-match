@@ -1,4 +1,4 @@
-# docker build -t onet-semantic-search .   (serve your own bundle: docker run -v $PWD/models/bundle:/app/bundle ...)
+# docker build -t onet-match .   (serve your own bundle: docker run -v $PWD/models/bundle:/app/bundle ...)
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 ONET_MATCH_BUNDLE=/app/bundle
@@ -12,7 +12,7 @@ COPY onet_analysis /src/onet_analysis
 COPY onet_data_collector /src/onet_data_collector
 RUN pip install "/src[matching,serve]"
 
-ARG HF_REPO=Benjamin-V-Chan/onet-semantic-search
+ARG HF_REPO=Benjamin-V-Chan/onet-match
 RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('${HF_REPO}', local_dir='/app/bundle')"
 ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 

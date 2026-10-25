@@ -1,8 +1,8 @@
 # Notes for coding agents
 
-## Using onet-semantic-search from another project
+## Using onet-match from another project
 
-- `pip install "onet-semantic-search[matching] @ git+https://github.com/Benjamin-V-Chan/onet-semantic-search"`
+- `pip install "onet-match[matching] @ git+https://github.com/Benjamin-V-Chan/onet-match"`
 - `from onet_match import match`. Then `match(text, top_k=5)` returns a
   `MatchResult` with `.matches` (a list of `OccupationMatch`) and `.profile`.
   `.to_dict()` gives JSON-ready output.

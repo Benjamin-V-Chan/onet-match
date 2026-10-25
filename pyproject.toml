@@ -3,7 +3,7 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "onet-semantic-search"
+name = "onet-match"
 version = "0.3.0"
 description = "Map free text (job titles, resume lines, projects, interests, skills) to O*NET occupations with skills, tasks and calibrated confidence."
 readme = "README.md"
@@ -38,7 +38,7 @@ plots = ["seaborn>=0.12"]
 matching = ["torch>=2.2", "sentence-transformers[train]>=5.0", "transformers>=4.41", "huggingface_hub>=0.23"]
 serve = ["fastapi>=0.110", "uvicorn>=0.29", "pydantic>=2"]
 synth = ["anthropic>=0.70", "openai>=1.40"]
-dev = ["pytest>=7", "seaborn>=0.12", "httpx>=0.27", "onet-semantic-search[matching,serve,synth]"]
+dev = ["pytest>=7", "seaborn>=0.12", "httpx>=0.27", "onet-match[matching,serve,synth]"]
 
 [project.scripts]
 onet-match = "onet_analysis.cli:main"
@@ -46,9 +46,9 @@ onet-analyze = "onet_analysis.cli:main"
 onet-collect = "onet_data_collector.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/Benjamin-V-Chan/onet-semantic-search"
-Repository = "https://github.com/Benjamin-V-Chan/onet-semantic-search"
-Documentation = "https://github.com/Benjamin-V-Chan/onet-semantic-search/tree/main/docs"
+Homepage = "https://github.com/Benjamin-V-Chan/onet-match"
+Repository = "https://github.com/Benjamin-V-Chan/onet-match"
+Documentation = "https://github.com/Benjamin-V-Chan/onet-match/tree/main/docs"
 
 [tool.setuptools.packages.find]
 include = ["onet_match*", "onet_analysis*", "onet_data_collector*"]
