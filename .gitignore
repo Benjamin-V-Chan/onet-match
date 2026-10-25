@@ -123,6 +123,7 @@ pyrightconfig.json
 
 # Local configuration file
 config.json
+!outputs/runs/*/config.json
 
 # Data files
 data/raw/
@@ -131,3 +132,12 @@ data/results/
 results/
 # Personal notes (project brief + deep dive)
 notes/
+
+# Semantic matching artifacts (rebuilt by `onet-analyze matching ...`)
+data/matching/
+models/
+outputs/**/predictions_*.parquet
+outputs/**/checkpoints/
+
+# Docs
+docs/

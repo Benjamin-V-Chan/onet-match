@@ -1,0 +1,31 @@
+{
+  "role": "train",
+  "provider": "anthropic",
+  "model": "claude-opus-5-5",
+  "prompt_version": "v1",
+  "raw_log": "/Users/benjaminchan/Projects/data-science-onet/data/matching/synth/raw_train.jsonl",
+  "snippets": 14574,
+  "usage": {
+    "train:claude-opus-5-5": {
+      "calls": 923,
+      "failed": 0,
+      "input_tokens": 1308841,
+      "output_tokens": 937895,
+      "snippets": 14574,
+      "usd": 23.993264,
+      "price_per_mtok": {
+        "input": 4.0,
+        "output": 20.0
+      }
+    }
+  },
+  "by_input_type": {
+    "skills": 3489,
+    "experience": 2776,
+    "description": 2771,
+    "project": 2769,
+    "interest": 2769
+  },
+  "title_leak_rate": 0.0009606147934678194,
+  "mean_words": 28.75710168793742
+}

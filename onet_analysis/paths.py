@@ -8,6 +8,9 @@ directory), so the same code runs locally, in notebooks, or in CI.
       data/processed/  condensed_job_details.csv, coverage tables, cluster assignments
       data/results/    keyword_analysis_results.csv
       results/         plots (.png) and summary text
+      data/matching/   occupation catalog + labeled matching datasets
+      models/          fine-tuned matching models and the serving bundle
+      outputs/runs/    one directory per benchmark run (metrics + predictions)
 """
 
 from __future__ import annotations
@@ -54,6 +57,31 @@ class Paths:
     @property
     def keyword_analysis_csv(self) -> Path:
         return self.data_results / "keyword_analysis_results.csv"
+
+    # Semantic matching ------------------------------------------------------
+    @property
+    def matching(self) -> Path:
+        return self.base / "data" / "matching"
+
+    @property
+    def catalog_dir(self) -> Path:
+        return self.matching / "catalog"
+
+    @property
+    def pairs(self) -> Path:
+        return self.matching / "pairs.parquet"
+
+    @property
+    def models(self) -> Path:
+        return self.base / "models"
+
+    @property
+    def bundle(self) -> Path:
+        return self.models / "bundle"
+
+    @property
+    def runs(self) -> Path:
+        return self.base / "outputs" / "runs"
 
     def make_all(self) -> "Paths":
         """Create every directory in the layout and return self."""

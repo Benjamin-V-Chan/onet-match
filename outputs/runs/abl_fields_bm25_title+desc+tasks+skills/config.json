@@ -1,0 +1,48 @@
+{
+  "run": "abl_fields_bm25_title+desc+tasks+skills",
+  "created_at": "2026-10-23T11:25:58.032111+00:00",
+  "ranker": {
+    "retriever": {
+      "type": "bm25",
+      "k1": 1.5,
+      "b": 0.75
+    },
+    "reranker": null,
+    "k": 20
+  },
+  "temperature": 4.0807800009065565,
+  "val_rows": 6813,
+  "git_rev": "f4f4de9",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O / arm",
+  "spec": "bm25",
+  "fields": "title+desc+tasks+skills",
+  "onet_release": "31.0",
+  "dataset_summary": {
+    "composite": {
+      "test": 865,
+      "train": 9133,
+      "val": 886
+    },
+    "dwa": {
+      "test": 208,
+      "train": 1669,
+      "val": 208
+    },
+    "task": {
+      "test": 1762,
+      "train": 14054,
+      "val": 1762
+    },
+    "title": {
+      "test": 3957,
+      "train": 31559,
+      "val": 3957
+    },
+    "title_hard": {
+      "train": 12324,
+      "val": 1542,
+      "test": 1556
+    },
+    "multi_label_rows": 6964
+  }
+}

@@ -12,3 +12,12 @@ numpy>=1.21
 scikit-learn>=1.1
 matplotlib>=3.5
 seaborn>=0.12
+pyarrow>=12
+
+# Semantic matching (optional extras: matching, serve, synth)
+torch>=2.2
+sentence-transformers[train]>=5.0
+fastapi>=0.110
+uvicorn>=0.29
+anthropic>=0.70
+openai>=1.40

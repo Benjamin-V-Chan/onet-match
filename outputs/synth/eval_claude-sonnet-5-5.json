@@ -1,0 +1,31 @@
+{
+  "role": "eval",
+  "provider": "anthropic",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "raw_log": "/Users/benjaminchan/Projects/data-science-onet/data/matching/synth/raw_eval.jsonl",
+  "snippets": 4703,
+  "usage": {
+    "eval:claude-sonnet-5-5": {
+      "calls": 923,
+      "failed": 0,
+      "input_tokens": 1137209,
+      "output_tokens": 446718,
+      "snippets": 4711,
+      "usd": 6.741598,
+      "price_per_mtok": {
+        "input": 2.0,
+        "output": 10.0
+      }
+    }
+  },
+  "by_input_type": {
+    "description": 969,
+    "experience": 944,
+    "skills": 937,
+    "project": 929,
+    "interest": 924
+  },
+  "title_leak_rate": 0.00021263023601956197,
+  "mean_words": 44.55879226025941
+}

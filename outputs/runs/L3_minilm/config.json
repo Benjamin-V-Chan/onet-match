@@ -1,0 +1,50 @@
+{
+  "run": "L3_minilm",
+  "created_at": "2026-10-24T12:33:31.111122+00:00",
+  "ranker": {
+    "retriever": {
+      "type": "dense",
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "query_prompt": "",
+      "doc_prompt": "",
+      "max_seq_length": 256
+    },
+    "reranker": null,
+    "k": 20
+  },
+  "temperature": 0.046500234342459895,
+  "val_rows": 6813,
+  "git_rev": "f4f4de9",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O / arm",
+  "spec": "dense=sentence-transformers/all-MiniLM-L6-v2",
+  "fields": "title+desc+tasks",
+  "onet_release": "31.0",
+  "dataset_summary": {
+    "composite": {
+      "test": 865,
+      "train": 9133,
+      "val": 886
+    },
+    "dwa": {
+      "test": 208,
+      "train": 1669,
+      "val": 208
+    },
+    "task": {
+      "test": 1762,
+      "train": 14054,
+      "val": 1762
+    },
+    "title": {
+      "test": 3957,
+      "train": 31559,
+      "val": 3957
+    },
+    "title_hard": {
+      "train": 12324,
+      "val": 1542,
+      "test": 1556
+    },
+    "multi_label_rows": 6964
+  }
+}

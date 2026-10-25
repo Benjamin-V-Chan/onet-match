@@ -1,0 +1,99 @@
+{
+  "run": "lc_frac0.1",
+  "created_at": "2026-10-24T12:13:23.381244+00:00",
+  "ranker": {
+    "retriever": {
+      "type": "dense",
+      "model": "/Users/benjaminchan/Projects/data-science-onet/models/lc_frac0.1",
+      "query_prompt": "",
+      "doc_prompt": "",
+      "max_seq_length": 256
+    },
+    "reranker": null,
+    "k": 20
+  },
+  "temperature": 0.04239284147288177,
+  "val_rows": 6813,
+  "git_rev": "f4f4de9",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O / arm",
+  "spec": "dense=models/lc_frac0.1",
+  "fields": "title+desc+tasks",
+  "onet_release": "31.0",
+  "dataset_summary": {
+    "composite": {
+      "test": 865,
+      "train": 9133,
+      "val": 886
+    },
+    "dwa": {
+      "test": 208,
+      "train": 1669,
+      "val": 208
+    },
+    "task": {
+      "test": 1762,
+      "train": 14054,
+      "val": 1762
+    },
+    "title": {
+      "test": 3957,
+      "train": 31559,
+      "val": 3957
+    },
+    "title_hard": {
+      "train": 12324,
+      "val": 1542,
+      "test": 1556
+    },
+    "multi_label_rows": 6964
+  },
+  "training": {
+    "lc_frac0.1": {
+      "base_model": "BAAI/bge-small-en-v1.5",
+      "examples": 7186,
+      "columns": [
+        "anchor",
+        "positive",
+        "negative"
+      ],
+      "epochs": 1.0,
+      "max_steps": -1,
+      "batch_size": 64,
+      "learning_rate": 2e-05,
+      "max_seq_length": 256,
+      "bf16": true,
+      "train_seconds": 153.82621912495233,
+      "steps": 112,
+      "loss_history": [
+        {
+          "loss": 2.1798760986328123,
+          "grad_norm": 6.305054664611816,
+          "learning_rate": 1.2600000000000001e-05,
+          "epoch": 0.44642857142857145,
+          "step": 50
+        },
+        {
+          "loss": 1.89010986328125,
+          "grad_norm": 6.581894874572754,
+          "learning_rate": 2.6e-06,
+          "epoch": 0.8928571428571429,
+          "step": 100
+        }
+      ],
+      "sources": [
+        "title",
+        "task",
+        "dwa",
+        "composite"
+      ],
+      "hard_negatives": true,
+      "fraction": 0.1,
+      "pairs_by_source": {
+        "title": 3635,
+        "task": 1507,
+        "dwa": 1103,
+        "composite": 967
+      }
+    }
+  }
+}

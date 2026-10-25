@@ -1,0 +1,120 @@
+{
+  "run": "lc_frac0.25",
+  "created_at": "2026-10-24T12:20:08.105706+00:00",
+  "ranker": {
+    "retriever": {
+      "type": "dense",
+      "model": "/Users/benjaminchan/Projects/data-science-onet/models/lc_frac0.25",
+      "query_prompt": "",
+      "doc_prompt": "",
+      "max_seq_length": 256
+    },
+    "reranker": null,
+    "k": 20
+  },
+  "temperature": 0.04421587118684055,
+  "val_rows": 6813,
+  "git_rev": "f4f4de9",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O / arm",
+  "spec": "dense=models/lc_frac0.25",
+  "fields": "title+desc+tasks",
+  "onet_release": "31.0",
+  "dataset_summary": {
+    "composite": {
+      "test": 865,
+      "train": 9133,
+      "val": 886
+    },
+    "dwa": {
+      "test": 208,
+      "train": 1669,
+      "val": 208
+    },
+    "task": {
+      "test": 1762,
+      "train": 14054,
+      "val": 1762
+    },
+    "title": {
+      "test": 3957,
+      "train": 31559,
+      "val": 3957
+    },
+    "title_hard": {
+      "train": 12324,
+      "val": 1542,
+      "test": 1556
+    },
+    "multi_label_rows": 6964
+  },
+  "training": {
+    "lc_frac0.25": {
+      "base_model": "BAAI/bge-small-en-v1.5",
+      "examples": 17962,
+      "columns": [
+        "anchor",
+        "positive",
+        "negative"
+      ],
+      "epochs": 1.0,
+      "max_steps": -1,
+      "batch_size": 64,
+      "learning_rate": 2e-05,
+      "max_seq_length": 256,
+      "bf16": true,
+      "train_seconds": 383.82526537496597,
+      "steps": 280,
+      "loss_history": [
+        {
+          "loss": 2.2614581298828127,
+          "grad_norm": 6.239953994750977,
+          "learning_rate": 1.8333333333333333e-05,
+          "epoch": 0.17857142857142858,
+          "step": 50
+        },
+        {
+          "loss": 1.855413818359375,
+          "grad_norm": 6.239474296569824,
+          "learning_rate": 1.4365079365079366e-05,
+          "epoch": 0.35714285714285715,
+          "step": 100
+        },
+        {
+          "loss": 1.7722764587402344,
+          "grad_norm": 6.250530242919922,
+          "learning_rate": 1.0396825396825398e-05,
+          "epoch": 0.5357142857142857,
+          "step": 150
+        },
+        {
+          "loss": 1.7719386291503907,
+          "grad_norm": 6.785323143005371,
+          "learning_rate": 6.4285714285714295e-06,
+          "epoch": 0.7142857142857143,
+          "step": 200
+        },
+        {
+          "loss": 1.7139212036132812,
+          "grad_norm": 6.1142425537109375,
+          "learning_rate": 2.4603174603174605e-06,
+          "epoch": 0.8928571428571429,
+          "step": 250
+        }
+      ],
+      "sources": [
+        "title",
+        "task",
+        "dwa",
+        "composite"
+      ],
+      "hard_negatives": true,
+      "fraction": 0.25,
+      "pairs_by_source": {
+        "title": 9184,
+        "task": 3760,
+        "dwa": 2740,
+        "composite": 2347
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "spec": "dense=models/L4b_ft-bge-base+synth+rerank=models/L5s_ft-bge-small+synth+ce",
+  "tuned_spec": "dense=models/L4b_ft-bge-base+synth+rerank=models/L5s_ft-bge-small+synth+ce+fuse=0.3",
+  "val_rows": 6813,
+  "chosen": {
+    "weight": 0.3,
+    "val_top1": 0.5165125495376486
+  },
+  "grid": [
+    {
+      "weight": 0.0,
+      "val_top1": 0.509173638632027
+    },
+    {
+      "weight": 0.05,
+      "val_top1": 0.512549537648613
+    },
+    {
+      "weight": 0.1,
+      "val_top1": 0.5143108762659622
+    },
+    {
+      "weight": 0.15,
+      "val_top1": 0.5143108762659622
+    },
+    {
+      "weight": 0.2,
+      "val_top1": 0.5162189931014237
+    },
+    {
+      "weight": 0.25,
+      "val_top1": 0.5153383237927491
+    },
+    {
+      "weight": 0.3,
+      "val_top1": 0.5165125495376486
+    },
+    {
+      "weight": 0.35,
+      "val_top1": 0.5135769851754
+    },
+    {
+      "weight": 0.4,
+      "val_top1": 0.5134302069572876
+    },
+    {
+      "weight": 0.45,
+      "val_top1": 0.5099075297225891
+    },
+    {
+      "weight": 0.5,
+      "val_top1": 0.5082929693233524
+    },
+    {
+      "weight": 0.55,
+      "val_top1": 0.5059445178335535
+    },
+    {
+      "weight": 0.6,
+      "val_top1": 0.49889916336415674
+    },
+    {
+      "weight": 0.65,
+      "val_top1": 0.49067958314986054
+    },
+    {
+      "weight": 0.7,
+      "val_top1": 0.48201966828122705
+    },
+    {
+      "weight": 0.75,
+      "val_top1": 0.47130485835901953
+    },
+    {
+      "weight": 0.8,
+      "val_top1": 0.45780126229267576
+    },
+    {
+      "weight": 0.85,
+      "val_top1": 0.44268310582709525
+    },
+    {
+      "weight": 0.9,
+      "val_top1": 0.42771172757962717
+    },
+    {
+      "weight": 0.95,
+      "val_top1": 0.41171290180537207
+    },
+    {
+      "weight": 1.0,
+      "val_top1": 0.3993835314839278
+    }
+  ]
+}

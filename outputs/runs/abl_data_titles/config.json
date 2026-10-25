@@ -1,0 +1,156 @@
+{
+  "run": "abl_data_titles",
+  "created_at": "2026-10-24T12:10:29.358669+00:00",
+  "ranker": {
+    "retriever": {
+      "type": "dense",
+      "model": "/Users/benjaminchan/Projects/data-science-onet/models/abl_data_titles",
+      "query_prompt": "",
+      "doc_prompt": "",
+      "max_seq_length": 256
+    },
+    "reranker": null,
+    "k": 20
+  },
+  "temperature": 0.05111245975343949,
+  "val_rows": 6813,
+  "git_rev": "f4f4de9",
+  "platform": "macOS-26.4-arm64-arm-64bit-Mach-O / arm",
+  "spec": "dense=models/abl_data_titles",
+  "fields": "title+desc+tasks",
+  "onet_release": "31.0",
+  "dataset_summary": {
+    "composite": {
+      "test": 865,
+      "train": 9133,
+      "val": 886
+    },
+    "dwa": {
+      "test": 208,
+      "train": 1669,
+      "val": 208
+    },
+    "task": {
+      "test": 1762,
+      "train": 14054,
+      "val": 1762
+    },
+    "title": {
+      "test": 3957,
+      "train": 31559,
+      "val": 3957
+    },
+    "title_hard": {
+      "train": 12324,
+      "val": 1542,
+      "test": 1556
+    },
+    "multi_label_rows": 6964
+  },
+  "training": {
+    "abl_data_titles": {
+      "base_model": "BAAI/bge-small-en-v1.5",
+      "examples": 37012,
+      "columns": [
+        "anchor",
+        "positive",
+        "negative"
+      ],
+      "epochs": 1.0,
+      "max_steps": -1,
+      "batch_size": 64,
+      "learning_rate": 2e-05,
+      "max_seq_length": 256,
+      "bf16": true,
+      "train_seconds": 727.4181424581911,
+      "steps": 578,
+      "loss_history": [
+        {
+          "loss": 2.263992919921875,
+          "grad_norm": 6.2607102394104,
+          "learning_rate": 1.6896551724137932e-05,
+          "epoch": 0.08650519031141868,
+          "step": 50
+        },
+        {
+          "loss": 1.65503173828125,
+          "grad_norm": 5.768675804138184,
+          "learning_rate": 1.8423076923076923e-05,
+          "epoch": 0.17301038062283736,
+          "step": 100
+        },
+        {
+          "loss": 1.5843453979492188,
+          "grad_norm": 6.928879261016846,
+          "learning_rate": 1.65e-05,
+          "epoch": 0.25951557093425603,
+          "step": 150
+        },
+        {
+          "loss": 1.5256866455078124,
+          "grad_norm": 6.619576454162598,
+          "learning_rate": 1.4576923076923077e-05,
+          "epoch": 0.3460207612456747,
+          "step": 200
+        },
+        {
+          "loss": 1.50942626953125,
+          "grad_norm": 7.209460735321045,
+          "learning_rate": 1.2653846153846154e-05,
+          "epoch": 0.43252595155709345,
+          "step": 250
+        },
+        {
+          "loss": 1.478037109375,
+          "grad_norm": 6.502320289611816,
+          "learning_rate": 1.0730769230769231e-05,
+          "epoch": 0.5190311418685121,
+          "step": 300
+        },
+        {
+          "loss": 1.4447879028320312,
+          "grad_norm": 6.462883949279785,
+          "learning_rate": 8.807692307692308e-06,
+          "epoch": 0.6055363321799307,
+          "step": 350
+        },
+        {
+          "loss": 1.401434326171875,
+          "grad_norm": 5.155589580535889,
+          "learning_rate": 6.8846153846153855e-06,
+          "epoch": 0.6920415224913494,
+          "step": 400
+        },
+        {
+          "loss": 1.4398716735839843,
+          "grad_norm": 6.7445831298828125,
+          "learning_rate": 4.961538461538462e-06,
+          "epoch": 0.7785467128027682,
+          "step": 450
+        },
+        {
+          "loss": 1.369990692138672,
+          "grad_norm": 7.304317474365234,
+          "learning_rate": 3.0384615384615383e-06,
+          "epoch": 0.8650519031141869,
+          "step": 500
+        },
+        {
+          "loss": 1.416581573486328,
+          "grad_norm": 6.491288185119629,
+          "learning_rate": 1.1153846153846156e-06,
+          "epoch": 0.9515570934256056,
+          "step": 550
+        }
+      ],
+      "sources": [
+        "title"
+      ],
+      "hard_negatives": true,
+      "fraction": 1.0,
+      "pairs_by_source": {
+        "title": 37034
+      }
+    }
+  }
+}

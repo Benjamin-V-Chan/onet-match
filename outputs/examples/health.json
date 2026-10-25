@@ -1,0 +1,1 @@
+{"status":"ok","api_version":"1","model":{"name":"L5b_ft-bge-base+synth+ce+fuse","spec":"dense=models/L4b_ft-bge-base+synth+rerank=models/L5s_ft-bge-small+synth+ce+fuse=0.3","onet_release":"31.0","temperature":0.6147757481308899,"source_run":"L5b_ft-bge-base+synth+ce+fuse"},"occupations":923}
