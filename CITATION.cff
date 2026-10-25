@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "onet-match: mapping free text to O*NET occupations"
+authors:
+  - family-names: Chan
+    given-names: Benjamin
+repository-code: "https://github.com/Benjamin-V-Chan/onet-match"
+license: MIT
+version: 0.3.0
+keywords:
+  - O*NET
+  - occupation classification
+  - job title normalization
+  - semantic search
+  - career exploration

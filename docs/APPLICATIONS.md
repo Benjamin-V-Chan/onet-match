@@ -79,7 +79,7 @@ occupations and skills give a steadier picture than any single entry.
 - Treat output as a **suggestion for exploration**, not advice or a placement
   decision. Show several matches, not just the top one, and use the
   confidence to decide how strongly to phrase suggestions. The reliability
-  curves in `notes/matching-results.md` show how far confidence can be trusted
+  curves in `docs/RESULTS.md` show how far confidence can be trusted
   for each input style.
 - Short interest statements are naturally ambiguous. A spread of moderate
   confidences is the correct answer for them, not a failure.
@@ -147,8 +147,8 @@ descriptions of their military duties.
 
 ## Choosing a model
 
-`notes/matching-results.md` reports accuracy, calibration and latency for every
-model on each input type. The lexical bundle (`onet-analyze matching bundle bm25
+`docs/RESULTS.md` reports accuracy, calibration and latency for every
+model on each input type. The lexical bundle (`onet-match matching bundle bm25
 --run L2_bm25`) needs no PyTorch and is the fastest option (see its latency in the
 results), but it is much less
 accurate on messy text. The fine-tuned dense models, optionally with the

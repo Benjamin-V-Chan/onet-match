@@ -1,4 +1,4 @@
-"""Command-line interface for the analytics pipeline (``onet-analyze``).
+"""Command-line interface (``onet-match``; ``onet-analyze`` is an alias).
 
     onet-analyze collect "healthcare" "technology"        # run the collector ETL
     onet-analyze eda                                       # coverage + distribution plots
@@ -41,7 +41,7 @@ def _configure_logging(verbose: bool) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="onet-analyze", description=__doc__.split("\n", 1)[0])
+    parser = argparse.ArgumentParser(prog="onet-match", description=__doc__.split("\n", 1)[0])
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("-v", "--verbose", action="store_true")
     parser.add_argument("--base", default=".", help="Base directory for data/ and results/.")
@@ -139,7 +139,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = msub.add_parser("lookup", help="Keyword search of O*NET titles.")
     p.add_argument("query", nargs="+")
-    msub.add_parser("report", help="Render notes/matching-results.md from outputs/runs.")
+    msub.add_parser("report", help="Render docs/RESULTS.md from outputs/runs.")
 
     return parser
 

@@ -1,17 +1,161 @@
-# data-science-onet
+# onet-match
 
-The **analytics half** of a two-repository O*NET pipeline. It consumes the tidy
-tables produced by [ONET-Data-Collector](https://github.com/Benjamin-V-Chan/ONET-Data-Collector)
-and turns them into diagnostics and interpretable structure:
+**Map free text about work to O\*NET occupations.** Job titles, resume
+bullets, job postings, project descriptions, interest statements and skill
+lists go in. Ranked O\*NET-SOC occupations come out, each with key tasks,
+skills, knowledge, RIASEC interests and a calibrated confidence score.
 
-- **EDA** — SOC-code coverage and occupation-distribution stats + plots.
-- **Clustering** — group occupations into role families via TF-IDF → TruncatedSVD → KMeans.
-- **Keyword attribution** — measure where each search keyword lands across the condensed feature fields.
-- **Semantic occupation matching** — map *any* free text about work (titles, postings, experience,
-  projects, interests, skill lists) to O*NET occupations with calibrated confidence and
-  skill/interest profiles; Python API, CLI and HTTP service. See [below](#semantic-occupation-matching).
+- Open source (MIT) and runs locally. No API key or account needed to match.
+- Fine-tuned bi-encoder + cross-encoder reranker over all 923 O\*NET 31.0
+  occupations. Top-1 accuracy is **51%** on held-out O\*NET text and **65%** on
+  messy human-style text, vs 21% and 17% for a TF-IDF baseline.
+- Python API, CLI, REST API (FastAPI) and Docker. About 47 ms per query on a laptop.
+- Also includes the O\*NET data pipeline it's built on: bulk database download,
+  a Web Services client and analysis tools.
 
-Everything is packaged as `onet_analysis` with a single `onet-analyze` CLI.
+| input | top match (confidence) |
+|---|---|
+| `ran the robotics club's CAD team` | Robotics Engineers, 17-2199.08 (0.52) |
+| `Excel, QuickBooks, payroll, AP/AR` | Payroll and Timekeeping Clerks, 43-3051.00 (0.49) |
+| `I love drawing and figuring out how machines work` | Mechanical Drafters, 17-3013.00 (0.41) |
+| `Looking for someone to keep our trucks on the road, diesel exp a plus` | Heavy and Tractor-Trailer Truck Drivers, 53-3032.00 (0.30); #2 Bus and Truck Mechanics (0.21) |
+| `Sr. Backend Eng II` | Web Developers, 15-1254.00 (0.43); #2 Software Developers (0.10). A miss: seniority-coded titles are a known weak spot |
+
+Real outputs of the served model, saved in `outputs/examples/readme_examples.json`.
+
+## Quickstart
+
+```bash
+pip install "onet-match[matching] @ git+https://github.com/Benjamin-V-Chan/onet-match"
+```
+
+```python
+from onet_match import match
+
+result = match("ran the robotics club's CAD team", top_k=5)
+for m in result.matches:
+    print(m.soc, m.title, m.confidence)
+print(result.profile["riasec_code"])      # aggregate interest code, e.g. "RIC"
+```
+
+The first call downloads the pretrained model bundle (about 0.5 GB) from the
+Hugging Face Hub and caches it.
+
+```bash
+onet-match match "Excel, QuickBooks, payroll, AP/AR"          # CLI (add --json for JSON)
+pip install "onet-match[matching,serve] @ git+https://github.com/Benjamin-V-Chan/onet-match"
+onet-match serve --port 8000                                   # REST API
+curl -s localhost:8000/match -H 'content-type: application/json' \
+     -d '{"text": "ran the robotics club'\''s CAD team", "top_k": 3}'
+```
+
+REST routes: `POST /match`, `POST /match/batch`, `GET /occupation/{soc}` and
+`GET /health`. The full request and response contract and the Docker setup are
+in [docs/API.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/API.md).
+
+### What each match contains
+
+`soc`, `title`, `confidence` (calibrated, 0–1), `score`, `major_group` and its
+title, `job_zone`, `riasec_code`, `description`, `top_tasks`, `top_skills`
+and `top_knowledge` (with O\*NET importance and level). Each result also
+carries a `profile` that aggregates skills, knowledge and all six RIASEC
+interests across the matches, weighted by confidence.
+
+## Use cases
+
+- **Career exploration (EdTech).** Map what students say they did or enjoy to
+  occupations and skills.
+- **Resume and profile parsing.** Code experience bullets and skill lists to
+  SOC codes.
+- **Job-posting normalization.** Turn informal titles and descriptions into
+  standard occupations.
+- **Workforce and labor-market analytics.** Batch-code large text collections.
+- **Career counseling tools.** Show the tasks and skills behind a suggestion.
+- **LLM agents.** Ground occupation questions in O\*NET instead of free
+  generation (see [`llms.txt`](https://github.com/Benjamin-V-Chan/onet-match/blob/main/llms.txt)).
+
+Details and integration patterns: [docs/APPLICATIONS.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/APPLICATIONS.md).
+
+## Accuracy
+
+All models are evaluated on the same held-out splits. Every number traces to a
+saved run in `outputs/runs/`.
+
+| model | O\*NET test top-1 | O\*NET test top-5 | messy-text test top-1 | messy-text test top-5 | p50 latency |
+|---|---|---|---|---|---|
+| TF-IDF baseline | 20.5% | 40.5% | 17.4% | 39.2% | 0.5 ms |
+| BM25 | 20.7% | 40.1% | 24.1% | 45.2% | 0.2 ms |
+| bge-base-en-v1.5, off the shelf | 36.1% | 64.3% | 45.4% | 77.6% | 6.9 ms |
+| fine-tuned bge-base | 50.2% | 78.2% | 65.2% | 92.6% | 6.8 ms |
+| **fine-tuned bge-base + reranker (served)** | **51.1%** | **79.1%** | **65.4%** | **92.9%** | 46.7 ms |
+
+- **O\*NET test:** 6,792 held-out titles, task statements, work activities and
+  descriptions.
+- **Messy-text test:** 4,703 informal snippets written by a different LLM than
+  the one that wrote the training text.
+- **Confidence:** temperature-calibrated, ECE 0.037.
+- **Full results:** per-input-type tables, calibration, ablations, learning
+  curves and error analysis are in [docs/RESULTS.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/RESULTS.md).
+
+## How it works
+
+```mermaid
+flowchart LR
+    B["O*NET 31.0 database<br/>(bulk download)"] --> C["Occupation catalog<br/>923 occupations"]
+    C --> P["Labeled pairs<br/>titles · tasks · activities"]
+    C --> S["LLM-written messy text<br/>train: model A · test: model B"]
+    P --> T["Fine-tune bi-encoder<br/>+ cross-encoder reranker"]
+    S --> T
+    T --> BU["Model bundle<br/>(Hugging Face Hub)"]
+    BU --> API["match() · onet-match CLI · REST API"]
+```
+
+1. A fine-tuned bi-encoder (bge-base) embeds the input and retrieves the 20
+   nearest occupations.
+2. A fine-tuned cross-encoder rescores those 20.
+3. The two scores are blended with a weight chosen on validation data.
+4. A temperature-scaled softmax turns the blended scores into calibrated
+   confidence.
+
+The validation and test tasks are removed from the occupation documents the
+models search, so no test text leaks into retrieval. Synthetic training and
+test text come from different LLMs. Details are in
+[docs/SYNTHETIC_DATA.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/SYNTHETIC_DATA.md).
+
+## O\*NET data pipeline
+
+The `onet_data_collector` package (`onet-collect`) downloads and verifies O\*NET
+database releases, which needs no credentials. It also wraps O\*NET Web
+Services: keyword search, occupation details and flattened profiles. See
+[docs/COLLECTOR.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/COLLECTOR.md).
+
+```bash
+onet-collect bulk download                         # download + verify the latest O*NET database
+onet-match collect "healthcare" "technology"       # Web Services search (free O*NET account, see .env.example)
+onet-match eda | keywords | cluster                # classic analysis: coverage, keyword attribution, TF-IDF clusters
+```
+
+## Train your own
+
+```bash
+git clone https://github.com/Benjamin-V-Chan/onet-match && cd onet-match
+pip install -e ".[dev]"
+onet-match matching build-data          # O*NET catalog, labeled pairs, splits
+scripts/matching/reproduce.sh           # every model, ablation and the results report
+onet-match matching bundle "<spec>" --run <run>   # package a model for serving
+```
+
+- **Synthetic text:** `WITH_SYNTH=1 TRAIN_LLM=<model> EVAL_PROVIDER=<provider> EVAL_LLM=<model> scripts/matching/reproduce.sh`
+  also generates the messy training and test text, using a different LLM for
+  each. It needs LLM API keys; see [docs/SYNTHETIC_DATA.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/SYNTHETIC_DATA.md).
+- **Training time:** bge-base took 58 minutes for one epoch on a laptop GPU
+  (Apple Silicon, MPS). The exact scripts behind every saved run are in
+  `scripts/matching/`.
+- **Tests:** `pytest` runs fully offline, using tiny local models and a
+  mocked LLM.
+
+Set `ONET_MATCH_BUNDLE=/path/to/bundle` to serve your own model, or
+`ONET_MATCH_HF_REPO=owner/repo` to load one from the Hub.
 
 ## Background
 
@@ -21,286 +165,26 @@ for an engineering course. Its analytics pipeline (EDA, occupation clustering,
 and keyword attribution) was later integrated into production products at
 **Project Leo**, and has inspired related work at other companies and projects.
 
-Since its original release, the project has been refined and modernized into a
-packaged, tested Python library with a unified CLI.
+In 2026 it was rebuilt around semantic occupation matching, and the former
+`ONET-Data-Collector` repository was merged in.
 
----
+## Citation
 
----
-
-## How it fits together
-
-```
-        ONET-Data-Collector                     data-science-onet (this repo)
-  ┌───────────────────────────┐          ┌──────────────────────────────────────┐
-  │ search → details → condense│  CSV /   │ EDA  ·  clustering  ·  keyword attrib. │
-  │  (onet_data_collector pkg) │──JSON──▶ │        (onet_analysis pkg)            │
-  └───────────────────────────┘          └──────────────────────────────────────┘
+```bibtex
+@software{chan_onet_match,
+  author = {Chan, Benjamin},
+  title  = {onet-match: mapping free text to O*NET occupations},
+  url    = {https://github.com/Benjamin-V-Chan/onet-match},
+  year   = {2026}
+}
 ```
 
-This repo depends on the collector package and re-exposes its ETL stage through
-`onet-analyze collect`, so both repositories share exactly one implementation of
-the API logic.
+## License and data attribution
 
----
+The code is MIT-licensed; see [LICENSE](https://github.com/Benjamin-V-Chan/onet-match/blob/main/LICENSE).
 
-## Install
-
-```bash
-git clone https://github.com/Benjamin-V-Chan/data-science-onet.git
-cd data-science-onet
-python -m venv .venv && source .venv/bin/activate
-
-# Install the collector (sibling repo) — editable local checkout is best for dev:
-pip install -e ../ONET-Data-Collector
-#   ...or from Git:  pip install "onet_data_collector @ git+https://github.com/Benjamin-V-Chan/ONET-Data-Collector.git"
-
-pip install -e ".[dev]"     # installs onet_analysis + the `onet-analyze` command
-```
-
-`requirements.txt` pins the same set (including a Git reference to the collector)
-so `pip install -r requirements.txt` works standalone.
-
-## Credentials
-
-Only the collection stage needs O*NET credentials (free signup at
-<https://services.onetcenter.org/developer/signup>). Set `ONET_USERNAME` /
-`ONET_PASSWORD`, use a `.env` file (see `.env.example`), or pass
-`--username/--password`.
-
----
-
-## Usage
-
-```bash
-# 1. Collect (hits the O*NET API) — writes data/raw and data/processed
-onet-analyze collect "healthcare" "technology" "design"
-
-# 2. Analyze the collected data (no network needed)
-onet-analyze eda                 # coverage + distribution tables and plots
-onet-analyze keywords            # keyword → field attribution matrix + charts
-onet-analyze cluster --clusters 6  # role clusters + top terms + scatter plot
-
-# ...or everything at once
-onet-analyze all "healthcare" "technology" --clusters 6
-```
-
-Use `--base <dir>` to relocate the `data/` and `results/` trees.
-
-### As a library
-
-```python
-from onet_analysis.loading import load_csv
-from onet_analysis.eda import run_eda
-from onet_analysis.clustering import cluster_occupations, plot_clusters
-from onet_analysis.keyword_attribution import analyze_keywords
-
-data = load_csv("data/raw/keyword_search_results.csv")
-run_eda(data, out_dir="results", processed_dir="data/processed")
-
-result = cluster_occupations(data, n_clusters=6)
-plot_clusters(result, "results/occupation_clusters.png")
-print(result.top_terms)          # distinctive terms per cluster
-```
-
----
-
-## Outputs
-
-```
-data/processed/  soc_code_coverage.csv, occupation_distribution.csv, cluster_assignments.csv
-data/results/    keyword_analysis_results.csv, per-keyword bar charts
-results/         soc_code_distribution.png, unique_soc_per_keyword.png,
-                 occupation_clusters.png, keyword_search_evaluation_summary.txt
-```
-
----
-
-## Semantic occupation matching
-
-`onet_analysis.matching` takes **any free text about work** and returns the
-closest O*NET occupations, each with a calibrated confidence, its key tasks,
-skills and knowledge, plus a profile of skills / knowledge / RIASEC interests
-aggregated across the matches (weighted by O*NET importance ratings).
-
-Job titles are only one input type. The same model handles all of these:
-
-| input | example |
-|---|---|
-| job title | `Sr. Backend Eng II` |
-| messy job description / posting | `Looking for someone to keep our trucks on the road, diesel exp a plus` |
-| past experience | `ran the robotics club's CAD team` |
-| project | `built a weather station with an Arduino and logged the data online` |
-| interests / strengths | `I love drawing and figuring out how machines work` |
-| skill list | `Excel, QuickBooks, payroll, AP/AR` |
-
-```python
-from onet_analysis.matching import match
-
-result = match("I love drawing and figuring out how machines work", top_k=5)
-for m in result.matches:
-    print(m.soc, m.title, m.confidence, m.top_skills[:3])
-print(result.profile["riasec_code"], result.profile["skills"][:5])
-```
-
-```bash
-onet-analyze match "ran the robotics club's CAD team"       # CLI
-onet-analyze serve --bundle models/bundle                     # HTTP: POST /match, GET /occupation/{soc}
-```
-
-The HTTP contract is in [docs/API.md](docs/API.md). Use cases are in
-[docs/APPLICATIONS.md](docs/APPLICATIONS.md): EdTech career exploration, resume
-parsing, job-posting normalization, workforce analytics and career counseling.
-
-### Headline results
-
-<!-- HEADLINE:BEGIN (pasted from notes/matching-results.md; every number names its run in outputs/runs/) -->
-Served model: `L5b_ft-bge-base+synth+ce+fuse` (best validation top-1, then MRR, among the ladder runs).
-
-**Real O*NET held-out test** (titles, tasks, activities, descriptions):
-
-| model | run | n | top-1 | top-5 | MRR@20 | major-group top-1 | ECE | Δ top-1 vs TF-IDF (pp) | p50 latency (ms) |
-|---|---|---|---|---|---|---|---|---|---|
-| 1 TF-IDF (existing approach, baseline) | `L1_tfidf` | 6792 | 20.5 | 40.5 | 0.295 | 47.0 | 0.066 |  | 0.5 |
-| 2 BM25 | `L2_bm25` | 6792 | 20.7 | 40.1 | 0.294 | 47.3 | 0.041 | +0.2 | 0.2 |
-| 3a all-MiniLM-L6-v2 (off-the-shelf) | `L3_minilm` | 6792 | 31.7 | 59.2 | 0.439 | 59.6 | 0.053 | +11.2 | 3.1 |
-| 3b bge-small-en-v1.5 (off-the-shelf) | `L3_bge-small` | 6792 | 32.9 | 59.4 | 0.447 | 60.3 | 0.062 | +12.4 | 5.5 |
-| 3c bge-base-en-v1.5 (off-the-shelf) | `L3_bge-base` | 6792 | 36.1 | 64.3 | 0.485 | 63.3 | 0.053 | +15.6 | 6.9 |
-| 3d e5-base-v2 (off-the-shelf) | `L3_e5-base` | 6792 | 35.5 | 63.8 | 0.479 | 63.4 | 0.052 | +15.0 | 6.8 |
-| 4 fine-tuned bge-small (real data) | `L4_ft-bge-small` | 6792 | 45.6 | 73.7 | 0.581 | 72.3 | 0.028 | +25.1 | 5.2 |
-| 5 = 4 + cross-encoder reranker (blended) | `L5_ft-bge-small+ce+fuse` | 6792 | 47.3 | 75.4 | 0.596 | 73.3 | 0.049 | +26.8 | 44.7 |
-| 4s fine-tuned bge-small (real + synthetic) | `L4s_ft-bge-small+synth` | 6792 | 45.6 | 73.7 | 0.582 | 72.6 | 0.029 | +25.1 | 5.4 |
-| 5s = 4s + cross-encoder reranker (blended) | `L5s_ft-bge-small+synth+ce+fuse` | 6792 | 47.6 | 75.6 | 0.599 | 73.5 | 0.037 | +27.1 | 44.8 |
-| 4b fine-tuned bge-base (real + synthetic) | `L4b_ft-bge-base+synth` | 6792 | 50.2 | 78.2 | 0.624 | 75.2 | 0.024 | +29.7 | 6.8 |
-| 5b = 4b + cross-encoder reranker (blended) | `L5b_ft-bge-base+synth+ce+fuse` | 6792 | 51.1 | 79.1 | 0.633 | 75.4 | 0.037 | +30.6 | 46.7 |
-
-**Held-out LLM-written messy inputs** (`synthetic_test`, written by a different model than the training data):
-
-| model | run | n | top-1 | top-5 | MRR@20 | major-group top-1 | ECE | Δ top-1 vs TF-IDF (pp) | p50 latency (ms) |
-|---|---|---|---|---|---|---|---|---|---|
-| 1 TF-IDF (existing approach, baseline) | `L1_tfidf` | 4703 | 17.4 | 39.2 | 0.274 | 42.3 | 0.038 |  | 0.5 |
-| 2 BM25 | `L2_bm25` | 4703 | 24.1 | 45.2 | 0.338 | 51.0 | 0.084 | +6.7 | 0.2 |
-| 3a all-MiniLM-L6-v2 (off-the-shelf) | `L3_minilm` | 4703 | 34.3 | 66.3 | 0.480 | 63.0 | 0.043 | +16.9 | 3.1 |
-| 3b bge-small-en-v1.5 (off-the-shelf) | `L3_bge-small` | 4703 | 37.1 | 69.5 | 0.514 | 65.7 | 0.074 | +19.8 | 5.5 |
-| 3c bge-base-en-v1.5 (off-the-shelf) | `L3_bge-base` | 4703 | 45.4 | 77.6 | 0.595 | 72.4 | 0.117 | +28.1 | 6.9 |
-| 3d e5-base-v2 (off-the-shelf) | `L3_e5-base` | 4703 | 42.2 | 75.8 | 0.568 | 70.5 | 0.132 | +24.8 | 6.8 |
-| 4 fine-tuned bge-small (real data) | `L4_ft-bge-small` | 4703 | 43.1 | 76.8 | 0.579 | 71.8 | 0.040 | +25.7 | 5.2 |
-| 5 = 4 + cross-encoder reranker (blended) | `L5_ft-bge-small+ce+fuse` | 4703 | 45.4 | 78.5 | 0.597 | 73.1 | 0.022 | +28.0 | 44.7 |
-| 4s fine-tuned bge-small (real + synthetic) | `L4s_ft-bge-small+synth` | 4703 | 57.9 | 88.5 | 0.714 | 83.0 | 0.079 | +40.5 | 5.4 |
-| 5s = 4s + cross-encoder reranker (blended) | `L5s_ft-bge-small+synth+ce+fuse` | 4703 | 59.0 | 89.3 | 0.720 | 82.9 | 0.086 | +41.6 | 44.8 |
-| 4b fine-tuned bge-base (real + synthetic) | `L4b_ft-bge-base+synth` | 4703 | 65.2 | 92.6 | 0.772 | 85.8 | 0.090 | +47.9 | 6.8 |
-| 5b = 4b + cross-encoder reranker (blended) | `L5b_ft-bge-base+synth+ce+fuse` | 4703 | 65.4 | 92.9 | 0.774 | 85.8 | 0.102 | +48.1 | 46.7 |
-
-<!-- HEADLINE:END -->
-
-Full tables for each input type, calibration, learning curves, ablations and
-error analysis are in `notes/matching-results.md`, generated by
-`onet-analyze matching report`.
-
-### Architecture
-
-```mermaid
-flowchart LR
-    subgraph collector["ONET-Data-Collector"]
-        B["onet-collect bulk download<br/>O*NET database release<br/>(cached + manifest)"]
-    end
-    subgraph data["onet-analyze matching build-data"]
-        C["Occupation catalog<br/>923 occupations: tasks, DWAs,<br/>skills, knowledge, RIASEC, job zones"]
-        P["Labeled pairs + splits<br/>titles · tasks · DWAs · composites<br/>train / val / test, hard titles"]
-        S["LLM messy inputs<br/>train: LLM A · eval: LLM B<br/>(synth)"]
-    end
-    subgraph ladder["Model ladder (same eval sets)"]
-        L1["1 TF-IDF"] --> L2["2 BM25"] --> L3["3 off-the-shelf<br/>embeddings"] --> L4["4 fine-tuned bi-encoder<br/>MNRL + hard negatives"] --> L5["5 + cross-encoder<br/>reranker (top-20),<br/>blended with 4"]
-    end
-    E["Evaluation harness<br/>top-1/5, MRR, major group,<br/>ECE, latency → outputs/runs/"]
-    R["Report<br/>notes/matching-results.md"]
-    BU["Serving bundle<br/>models/bundle"]
-    API["match() · onet-analyze match ·<br/>FastAPI /match, /occupation/{soc}"]
-    B --> C --> P
-    C --> S
-    P --> ladder
-    S --> ladder
-    ladder --> E
-    E --> R
-    E -- temperature --> BU
-    L5 --> BU --> API
-```
-
-The occupation documents that models search are built from the title,
-description and top tasks. Every validation and test task is removed from them,
-so no test text is visible to a model. Confidence is a softmax over the top-20
-scores with a temperature fitted on the real validation split.
-
-### Reproduce
-
-```bash
-pip install -e ../ONET-Data-Collector && pip install -e ".[dev]"   # dev pulls matching/serve/synth extras
-
-onet-analyze matching build-data            # download O*NET 31.0 (no credentials), build catalog + datasets
-scripts/matching/reproduce.sh               # full real-data ladder + ablations + report
-# Synthetic messy inputs need API keys (see docs/SYNTHETIC_DATA.md):
-WITH_SYNTH=1 TRAIN_LLM=claude-opus-5-5 EVAL_PROVIDER=anthropic EVAL_LLM=claude-sonnet-5-5 scripts/matching/reproduce.sh
-
-# Individual steps
-onet-analyze matching eval tfidf --run-name L1_tfidf
-onet-analyze matching eval dense=BAAI/bge-base-en-v1.5 --run-name L3_bge-base
-onet-analyze matching train-biencoder --name L4_ft-bge-small --eval
-onet-analyze matching train-reranker --name L5_ft-bge-small+ce --biencoder models/L4_ft-bge-small --eval
-onet-analyze matching tune-fusion "dense=models/L4_ft-bge-small+rerank=models/L5_ft-bge-small+ce" \
-    --eval-as L5_ft-bge-small+ce+fuse      # blend weight chosen on validation
-# served model: bge-base bi-encoder (real + synthetic) blended with the 5s reranker
-onet-analyze matching train-biencoder --name L4b_ft-bge-base+synth --base-model BAAI/bge-base-en-v1.5 \
-    --batch-size 32 --sources title,task,dwa,composite,synthetic --eval
-onet-analyze matching tune-fusion "dense=models/L4b_ft-bge-base+synth+rerank=models/L5s_ft-bge-small+synth+ce" \
-    --eval-as L5b_ft-bge-base+synth+ce+fuse
-onet-analyze matching bundle "<spec from the chosen run's config.json>" --run <run>
-onet-analyze matching report
-```
-
-The exact scripts behind every saved run are `scripts/matching/run_offtheshelf.sh`,
-`run_finetune.sh`, `reeval_ladder.sh` and `reproduce.sh`. On an Apple M5 Pro
-(MPS, bf16) one epoch of bge-small took 26 minutes on the real pairs and 31
-minutes with the synthetic data added, bge-base with the synthetic data took
-58 minutes (batch 32), and the reranker took 24 minutes (times from each
-model's `training.json`). Docker: see [docs/API.md](docs/API.md).
-
----
-
-## Method notes (what's real, and why)
-
-- **TF-IDF (unigrams + bigrams)** over occupation titles (and descriptions when
-  present) is a transparent, dependency-light baseline — no GPU or model
-  download — whose vocabulary makes clusters explainable via top terms.
-- **TruncatedSVD (LSA)** reduces the *sparse* TF-IDF matrix without densifying
-  it: memory-safe, and the correct PCA analogue for sparse text.
-- **KMeans** with fixed `random_state`/`n_init` gives stable, repeatable
-  groupings; a silhouette score is reported and `k` is auto-clamped to the
-  sample count so tiny inputs never crash.
-- **Schema tolerance** — column resolution accepts naming variants
-  (`Job Title` / `job_title` / `occupation_title`, etc.) so analysis survives
-  export drift.
-- These are interpretable **baselines**, chosen deliberately for
-  explainability and zero heavy dependencies. The semantic matcher above
-  benchmarks the same TF-IDF setup against embedding models, and the heavier
-  dependencies are opt-in extras (`[matching]`, `[serve]`, `[synth]`).
-
-The core install depends only on `pandas`, `numpy`, `scikit-learn`,
-`matplotlib`, `pyarrow` and (optionally) `seaborn`. PyTorch and
-sentence-transformers are only needed for dense matching models
-(`pip install -e ".[matching]"`).
-
----
-
-## Development
-
-```bash
-pip install -e ".[dev]"
-pytest            # all offline: synthetic fixtures, a tiny local BERT, a mocked LLM
-```
-
-Legacy scripts under `scripts/` are kept for backwards compatibility and now
-delegate to the `onet_analysis` package; prefer the `onet-analyze` CLI.
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+This product includes information from the O\*NET 31.0 Database by the U.S.
+Department of Labor, Employment and Training Administration (USDOL/ETA), used
+under the [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license.
+O\*NET® is a trademark of USDOL/ETA. USDOL/ETA has not approved, endorsed or
+tested this product.

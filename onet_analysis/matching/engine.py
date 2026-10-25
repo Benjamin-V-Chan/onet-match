@@ -13,7 +13,9 @@ neither the O*NET release nor the training data::
       doc_embeddings.npy   occupation embeddings (dense bundles)
 
 Bundle resolution for :func:`default_engine`: ``$ONET_MATCH_BUNDLE``, then
-``./models/bundle``.
+``./models/bundle``, then the pretrained bundle on the Hugging Face Hub
+(``$ONET_MATCH_HF_REPO``, default :data:`DEFAULT_HF_REPO`), downloaded once into
+the Hugging Face cache. ``hf:<owner>/<repo>`` selects a Hub bundle explicitly.
 """
 
 from __future__ import annotations
@@ -323,11 +325,25 @@ _DEFAULT: MatchEngine | None = None
 _DEFAULT_LOCK = threading.Lock()
 
 
+DEFAULT_HF_REPO = "Benjamin-V-Chan/onet-match"
+
+
+def download_bundle(repo_id: str | None = None) -> Path:
+    from huggingface_hub import snapshot_download
+
+    repo_id = repo_id or os.environ.get("ONET_MATCH_HF_REPO") or DEFAULT_HF_REPO
+    log.info("Downloading match bundle %s from the Hugging Face Hub", repo_id)
+    return Path(snapshot_download(repo_id=repo_id))
+
+
 def resolve_bundle_dir(bundle: str | Path | None = None) -> Path:
+    bundle = bundle or os.environ.get("ONET_MATCH_BUNDLE")
     if bundle:
+        if str(bundle).startswith("hf:"):
+            return download_bundle(str(bundle)[3:])
         return Path(bundle)
-    env = os.environ.get("ONET_MATCH_BUNDLE")
-    return Path(env) if env else Path("models") / "bundle"
+    local = Path("models") / "bundle"
+    return local if (local / "bundle.json").is_file() else download_bundle()
 
 
 def default_engine(bundle: str | Path | None = None) -> MatchEngine:
@@ -335,7 +351,7 @@ def default_engine(bundle: str | Path | None = None) -> MatchEngine:
     global _DEFAULT
     with _DEFAULT_LOCK:
         if bundle is not None:
-            return MatchEngine.from_bundle(bundle)
+            return MatchEngine.from_bundle(resolve_bundle_dir(bundle))
         if _DEFAULT is None:
             _DEFAULT = MatchEngine.from_bundle(resolve_bundle_dir())
         return _DEFAULT

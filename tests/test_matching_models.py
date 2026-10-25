@@ -4,6 +4,7 @@ serving engine, HTTP API and CLI — all offline."""
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -271,3 +272,25 @@ def test_spec_fusion_and_score_blend():
         parse_spec("dense=m+fuse=0.3")
     bi, ce = np.array([[3.0, 2.0, 1.0]]), np.array([[1.0, 2.0, 3.0]])
     assert fuse_scores(bi, ce, 0.0).argmax() == 0 and fuse_scores(bi, ce, 1.0).argmax() == 2
+
+
+def test_bundle_resolution_falls_back_to_hub(tmp_path, monkeypatch):
+    from onet_analysis.matching import engine as E
+
+    calls = []
+    monkeypatch.setattr(E, "download_bundle", lambda repo_id=None: calls.append(repo_id) or tmp_path)
+    monkeypatch.delenv("ONET_MATCH_BUNDLE", raising=False)
+    monkeypatch.chdir(tmp_path)
+    assert E.resolve_bundle_dir() == tmp_path and calls == [None]
+    assert E.resolve_bundle_dir("hf:someone/bundle") == tmp_path and calls[-1] == "someone/bundle"
+    assert E.resolve_bundle_dir(tmp_path / "local") == tmp_path / "local"
+    (tmp_path / "models" / "bundle").mkdir(parents=True)
+    (tmp_path / "models" / "bundle" / "bundle.json").write_text("{}")
+    assert E.resolve_bundle_dir() == Path("models") / "bundle" and len(calls) == 2
+
+
+def test_onet_match_alias():
+    import onet_match
+    from onet_analysis.matching import match
+
+    assert onet_match.match is match

@@ -4,11 +4,12 @@ The FastAPI service in `onet_analysis/matching/api.py` exposes the matching
 engine over HTTP. API version: **1**. All bodies are JSON (UTF-8).
 
 ```bash
-onet-analyze serve --bundle models/bundle --host 0.0.0.0 --port 8000
+onet-match serve --host 0.0.0.0 --port 8000      # pretrained bundle from the Hugging Face Hub
+onet-match serve --bundle models/bundle          # or a local bundle
 # or
 ONET_MATCH_BUNDLE=models/bundle uvicorn onet_analysis.matching.api:app --port 8000
-# or Docker (needs a bundle in models/bundle)
-docker build --build-context collector=../ONET-Data-Collector -t onet-match .
+# or Docker (the image downloads the pretrained bundle at build time)
+docker build -t onet-match .
 docker run -p 8000:8000 onet-match
 ```
 

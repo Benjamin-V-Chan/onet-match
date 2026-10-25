@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,14 +8,14 @@ version = "0.3.0"
 description = "Map free text (job titles, resume lines, projects, interests, skills) to O*NET occupations with skills, tasks and calibrated confidence."
 readme = "README.md"
 requires-python = ">=3.9"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{ name = "Benjamin Chan" }]
 keywords = ["onet", "o*net", "occupations", "soc-codes", "job-title-normalization", "occupation-classification",
             "semantic-search", "job-matching", "resume-parsing", "career-exploration", "skills-taxonomy",
             "sentence-transformers", "embeddings", "reranker", "riasec"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
@@ -35,7 +35,7 @@ dependencies = [
 [project.optional-dependencies]
 plots = ["seaborn>=0.12"]
 # Dense retrieval, fine-tuning and reranking (TF-IDF/BM25 matching needs none of this).
-matching = ["torch>=2.2", "sentence-transformers[train]>=5.0", "transformers>=4.41"]
+matching = ["torch>=2.2", "sentence-transformers[train]>=5.0", "transformers>=4.41", "huggingface_hub>=0.23"]
 serve = ["fastapi>=0.110", "uvicorn>=0.29", "pydantic>=2"]
 synth = ["anthropic>=0.70", "openai>=1.40"]
 dev = ["pytest>=7", "seaborn>=0.12", "httpx>=0.27", "onet-match[matching,serve,synth]"]
@@ -51,7 +51,7 @@ Repository = "https://github.com/Benjamin-V-Chan/onet-match"
 Documentation = "https://github.com/Benjamin-V-Chan/onet-match/tree/main/docs"
 
 [tool.setuptools.packages.find]
-include = ["onet_analysis*", "onet_data_collector*"]
+include = ["onet_match*", "onet_analysis*", "onet_data_collector*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

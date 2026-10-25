@@ -97,11 +97,11 @@ Rules:
 ```bash
 export ANTHROPIC_API_KEY=...          # or OPENAI_API_KEY / --api-key-env for other providers
 # 1. pilots (7 occupations each): check cost and quality
-onet-analyze matching synth --role train --provider anthropic --model claude-opus-5-5 --pilot 7
-onet-analyze matching synth --role eval  --provider anthropic --model claude-sonnet-5-5 --pilot 7 --per-type 1
+onet-match matching synth --role train --provider anthropic --model claude-opus-5-5 --pilot 7
+onet-match matching synth --role eval  --provider anthropic --model claude-sonnet-5-5 --pilot 7 --per-type 1
 # 2. full runs (the ones behind the saved results)
-onet-analyze matching synth --role train --provider anthropic --model claude-opus-5-5
-onet-analyze matching synth --role eval  --provider anthropic --model claude-sonnet-5-5 --per-type 1
+onet-match matching synth --role train --provider anthropic --model claude-opus-5-5
+onet-match matching synth --role eval  --provider anthropic --model claude-sonnet-5-5 --per-type 1
 # a non-Claude eval model works too:
 #   --provider openai-compatible --model <model> --price-in <usd/Mtok> --price-out <usd/Mtok>
 ```

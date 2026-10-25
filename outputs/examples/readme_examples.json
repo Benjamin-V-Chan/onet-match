@@ -1,0 +1,128 @@
+[
+  {
+    "query": "Sr. Backend Eng II",
+    "top": [
+      [
+        "15-1254.00",
+        "Web Developers",
+        0.4307
+      ],
+      [
+        "15-1252.00",
+        "Software Developers",
+        0.102
+      ],
+      [
+        "15-1232.00",
+        "Computer User Support Specialists",
+        0.0728
+      ]
+    ],
+    "riasec": "CIR"
+  },
+  {
+    "query": "Looking for someone to keep our trucks on the road, diesel exp a plus",
+    "top": [
+      [
+        "53-3032.00",
+        "Heavy and Tractor-Trailer Truck Drivers",
+        0.2993
+      ],
+      [
+        "49-3031.00",
+        "Bus and Truck Mechanics and Diesel Engine Specialists",
+        0.2058
+      ],
+      [
+        "53-3033.00",
+        "Light Truck Drivers",
+        0.1755
+      ]
+    ],
+    "riasec": "RCI"
+  },
+  {
+    "query": "ran the robotics club's CAD team",
+    "top": [
+      [
+        "17-2199.08",
+        "Robotics Engineers",
+        0.5217
+      ],
+      [
+        "17-3024.01",
+        "Robotics Technicians",
+        0.2266
+      ],
+      [
+        "17-3024.00",
+        "Electro-Mechanical and Mechatronics Technologists and Technicians",
+        0.0638
+      ]
+    ],
+    "riasec": "RIC"
+  },
+  {
+    "query": "built a weather station with an Arduino and logged the data online",
+    "top": [
+      [
+        "19-2021.00",
+        "Atmospheric and Space Scientists",
+        0.3892
+      ],
+      [
+        "19-4012.01",
+        "Precision Agriculture Technicians",
+        0.2213
+      ],
+      [
+        "19-4099.03",
+        "Remote Sensing Technicians",
+        0.1118
+      ]
+    ],
+    "riasec": "IRC"
+  },
+  {
+    "query": "I love drawing and figuring out how machines work",
+    "top": [
+      [
+        "17-3013.00",
+        "Mechanical Drafters",
+        0.4079
+      ],
+      [
+        "51-9162.00",
+        "Computer Numerically Controlled Tool Programmers",
+        0.1955
+      ],
+      [
+        "51-4021.00",
+        "Extruding and Drawing Machine Setters, Operators, and Tenders, Metal and Plastic",
+        0.1352
+      ]
+    ],
+    "riasec": "RCI"
+  },
+  {
+    "query": "Excel, QuickBooks, payroll, AP/AR",
+    "top": [
+      [
+        "43-3051.00",
+        "Payroll and Timekeeping Clerks",
+        0.4927
+      ],
+      [
+        "43-3031.00",
+        "Bookkeeping, Accounting, and Auditing Clerks",
+        0.2146
+      ],
+      [
+        "43-3021.00",
+        "Billing and Posting Clerks",
+        0.0758
+      ]
+    ],
+    "riasec": "CER"
+  }
+]

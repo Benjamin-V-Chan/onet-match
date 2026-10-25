@@ -5,5 +5,4 @@ data
 outputs
 notes
 results
-models/*
-!models/bundle
+models

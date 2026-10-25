@@ -1,27 +1,9 @@
-# ONET-Data-Collector
+# O*NET data collector (`onet_data_collector`)
 
-A small, dependency-light Python toolkit that turns [O*NET Web Services](https://services.onetcenter.org/)
-occupational data into tidy, analysis-ready tables.
-
-It is the **data-collection (ETL) half** of a two-repository pipeline. Its
-companion, [data-science-onet](https://github.com/Benjamin-V-Chan/data-science-onet),
-consumes the tables produced here and runs the analytics (EDA, clustering,
-keyword attribution).
-
-## Background
-
-This project was originally built in 2024 as an open-source edtech tool for
-turning O*NET occupational data into structured, machine-readable career
-datasets, and as part of my capstone project for an engineering course. Its ETL
-pipeline was later integrated into production products at **Project Leo**, and
-has inspired related work at other companies and projects.
-
-Since its original release, the project has been refined and modernized into a
-packaged, fully tested Python library with a resilient API client and CLI.
-
----
-
----
+A small, dependency-light toolkit that turns [O*NET Web Services](https://services.onetcenter.org/)
+data and O*NET database releases into tidy, analysis-ready tables. It ships with
+`onet-match` and provides the data that the semantic matcher is trained on.
+It was a separate repository (`ONET-Data-Collector`) until 2026.
 
 ## What it does
 
@@ -39,7 +21,7 @@ the O*NET REST API with retries, timeouts, pagination, and typed errors.
 
 It can also download the **entire O*NET database release** in one go (no
 credentials needed), which is what offline modelling such as the semantic
-occupation matcher in `data-science-onet` uses. See
+occupation matcher in this repo uses. See
 [Bulk database download](#bulk-database-download).
 
 ---
@@ -47,14 +29,11 @@ occupation matcher in `data-science-onet` uses. See
 ## Install
 
 ```bash
-git clone https://github.com/Benjamin-V-Chan/ONET-Data-Collector.git
-cd ONET-Data-Collector
-python -m venv .venv && source .venv/bin/activate
-pip install -e .            # installs the `onet-collect` command
+pip install "onet-match @ git+https://github.com/Benjamin-V-Chan/onet-match"   # installs `onet-collect`
 ```
 
-The only runtime dependency is `pandas`; the HTTP client is built on the Python
-standard library. Development/test extras: `pip install -e ".[dev]"`.
+The collector itself needs only `pandas`; its HTTP client is built on the Python
+standard library.
 
 ## Credentials
 
@@ -194,14 +173,6 @@ The original import paths and function names still work:
 `keyword_search`, `fetch_job_details`, `condense_job_details`, and
 `check_for_error`. `OnetWebService` is now an alias of `OnetClient`.
 
-## Project role in the larger stack
-
-- **ONET-Data-Collector** (this repo) — ingestion, retrieval, normalization, bulk database download.
-- **data-science-onet** — analytics, clustering, keyword attribution, semantic occupation matching.
-
-Together they form a modular pipeline from public labor-market data to
-analysis-ready occupational tables.
-
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](../LICENSE).

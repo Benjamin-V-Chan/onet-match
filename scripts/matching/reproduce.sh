@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Reproduce every number in notes/matching-results.md, end to end.
+# Reproduce every number in docs/RESULTS.md, end to end.
 #
 #   scripts/matching/reproduce.sh            # real-data ladder + ablations (no API keys needed)
 #   WITH_SYNTH=1 TRAIN_LLM=... EVAL_LLM=... EVAL_PROVIDER=... scripts/matching/reproduce.sh
@@ -34,4 +34,4 @@ if [[ "${WITH_SYNTH:-0}" == "1" ]]; then
   scripts/matching/reeval_ladder.sh
 fi
 
-$A matching report                                       # -> notes/matching-results.md
+$A matching report                                       # -> docs/RESULTS.md
