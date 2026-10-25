@@ -9,8 +9,8 @@ onet-match serve --bundle models/bundle          # or a local bundle
 # or
 ONET_MATCH_BUNDLE=models/bundle uvicorn onet_analysis.matching.api:app --port 8000
 # or Docker (the image downloads the pretrained bundle at build time)
-docker build -t onet-match .
-docker run -p 8000:8000 onet-match
+docker build -t onet-semantic-search .
+docker run -p 8000:8000 onet-semantic-search
 ```
 
 Interactive OpenAPI docs are served at `/docs`, and the schema at `/openapi.json`.

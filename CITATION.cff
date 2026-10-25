@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "onet-match: mapping free text to O*NET occupations"
+title: "onet-semantic-search: mapping free text to O*NET occupations"
 authors:
   - family-names: Chan
     given-names: Benjamin
-repository-code: "https://github.com/Benjamin-V-Chan/onet-match"
+repository-code: "https://github.com/Benjamin-V-Chan/onet-semantic-search"
 license: MIT
 version: 0.3.0
 keywords:

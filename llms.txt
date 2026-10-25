@@ -1,4 +1,4 @@
-# onet-match
+# onet-semantic-search
 
 > Open-source Python library, CLI and REST API that maps free text about work
 > to O*NET-SOC occupations. Inputs can be job titles, resume bullets, job
@@ -13,7 +13,7 @@ profile text into occupations; suggest careers from interests or experience;
 attach O*NET skills, tasks or RIASEC codes to free text; or batch-code job
 postings or survey responses.
 
-Install: `pip install "onet-match[matching] @ git+https://github.com/Benjamin-V-Chan/onet-match"`
+Install: `pip install "onet-semantic-search[matching] @ git+https://github.com/Benjamin-V-Chan/onet-semantic-search"`
 
 ```python
 from onet_match import match
@@ -34,14 +34,14 @@ Backend Eng II".
 
 ## Docs
 
-- [README](https://github.com/Benjamin-V-Chan/onet-match/blob/main/README.md): overview, quickstart, accuracy, how it works
-- [HTTP API contract](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/API.md): routes, request and response fields, errors, Docker
-- [Applications](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/APPLICATIONS.md): EdTech, resume parsing, job-posting normalization, workforce analytics, integration patterns
-- [Results](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/RESULTS.md): accuracy by input type, calibration, ablations, error analysis
-- [Synthetic data](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/SYNTHETIC_DATA.md): how the training and test text was generated
-- [O*NET data collector](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/COLLECTOR.md): bulk database download and the O*NET Web Services client
+- [README](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/README.md): overview, quickstart, accuracy, how it works
+- [HTTP API contract](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/API.md): routes, request and response fields, errors, Docker
+- [Applications](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/APPLICATIONS.md): EdTech, resume parsing, job-posting normalization, workforce analytics, integration patterns
+- [Results](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/RESULTS.md): accuracy by input type, calibration, ablations, error analysis
+- [Synthetic data](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/SYNTHETIC_DATA.md): how the training and test text was generated
+- [O*NET data collector](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/docs/COLLECTOR.md): bulk database download and the O*NET Web Services client
 
 ## Optional
 
-- [Python API source](https://github.com/Benjamin-V-Chan/onet-match/blob/main/onet_analysis/matching/engine.py): `match`, `MatchEngine`, `MatchResult`, `OccupationMatch`
-- [Agent and contributor notes](https://github.com/Benjamin-V-Chan/onet-match/blob/main/AGENTS.md)
+- [Python API source](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/onet_analysis/matching/engine.py): `match`, `MatchEngine`, `MatchResult`, `OccupationMatch`
+- [Agent and contributor notes](https://github.com/Benjamin-V-Chan/onet-semantic-search/blob/main/AGENTS.md)
