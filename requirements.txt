@@ -1,23 +1,2 @@
-# Analytics-layer dependencies for data-science-onet.
-# Install with:  pip install -r requirements.txt
-#
-# The collector (sibling repo) supplies the ETL stage. For local development
-# prefer an editable install of the checkout next to this repo:
-#     pip install -e ../ONET-Data-Collector
-# The Git pin below lets `pip install -r requirements.txt` work standalone.
-onet_data_collector @ git+https://github.com/Benjamin-V-Chan/ONET-Data-Collector.git
-
-pandas>=1.3
-numpy>=1.21
-scikit-learn>=1.1
-matplotlib>=3.5
-seaborn>=0.12
-pyarrow>=12
-
-# Semantic matching (optional extras: matching, serve, synth)
-torch>=2.2
-sentence-transformers[train]>=5.0
-fastapi>=0.110
-uvicorn>=0.29
-anthropic>=0.70
-openai>=1.40
+# pip install -r requirements.txt  (same as: pip install -e ".[dev]")
+-e .[dev]

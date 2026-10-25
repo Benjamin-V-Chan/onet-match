@@ -1,4 +1,4 @@
-# docker build --build-context collector=../ONET-Data-Collector -t onet-match .
+# docker build -t onet-match .
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 \
@@ -7,13 +7,10 @@ WORKDIR /app
 
 RUN pip install --index-url https://download.pytorch.org/whl/cpu "torch>=2.2"
 
-COPY --from=collector pyproject.toml README.md LICENSE /src/collector/
-COPY --from=collector onet_data_collector /src/collector/onet_data_collector
-RUN pip install /src/collector
-
-COPY pyproject.toml README.md LICENSE /src/analysis/
-COPY onet_analysis /src/analysis/onet_analysis
-RUN pip install "/src/analysis[matching,serve]"
+COPY pyproject.toml README.md LICENSE /src/
+COPY onet_analysis /src/onet_analysis
+COPY onet_data_collector /src/onet_data_collector
+RUN pip install "/src[matching,serve]"
 
 COPY models/bundle /app/bundle
 
