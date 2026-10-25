@@ -148,8 +148,9 @@ onet-analyze match "ran the robotics club's CAD team"       # CLI
 onet-analyze serve --bundle models/bundle                     # HTTP: POST /match, GET /occupation/{soc}
 ```
 
-Use cases include EdTech career exploration, resume parsing, job-posting
-normalization, workforce analytics and career counseling.
+The HTTP contract is in [docs/API.md](docs/API.md). Use cases are in
+[docs/APPLICATIONS.md](docs/APPLICATIONS.md): EdTech career exploration, resume
+parsing, job-posting normalization, workforce analytics and career counseling.
 
 ### Headline results
 
@@ -237,7 +238,7 @@ pip install -e ../ONET-Data-Collector && pip install -e ".[dev]"   # dev pulls m
 
 onet-analyze matching build-data            # download O*NET 31.0 (no credentials), build catalog + datasets
 scripts/matching/reproduce.sh               # full real-data ladder + ablations + report
-# Synthetic messy inputs need an API key:
+# Synthetic messy inputs need API keys (see docs/SYNTHETIC_DATA.md):
 WITH_SYNTH=1 TRAIN_LLM=claude-opus-5-5 EVAL_PROVIDER=anthropic EVAL_LLM=claude-sonnet-5-5 scripts/matching/reproduce.sh
 
 # Individual steps
@@ -261,8 +262,7 @@ The exact scripts behind every saved run are `scripts/matching/run_offtheshelf.s
 (MPS, bf16) one epoch of bge-small took 26 minutes on the real pairs and 31
 minutes with the synthetic data added, bge-base with the synthetic data took
 58 minutes (batch 32), and the reranker took 24 minutes (times from each
-model's `training.json`). Docker:
-`docker build --build-context collector=../ONET-Data-Collector -t onet-match .`
+model's `training.json`). Docker: see [docs/API.md](docs/API.md).
 
 ---
 

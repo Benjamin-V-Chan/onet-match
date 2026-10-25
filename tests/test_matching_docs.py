@@ -4,12 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pytest
-
 from onet_analysis.matching import synth as S
 
 DOCS = Path(__file__).resolve().parents[1] / "docs"
-pytestmark = pytest.mark.skipif(not DOCS.is_dir(), reason="docs/ not present")
 
 
 def test_synthetic_prompt_doc_matches_code():

@@ -138,6 +138,3 @@ data/matching/
 models/
 outputs/**/predictions_*.parquet
 outputs/**/checkpoints/
-
-# Docs
-docs/
