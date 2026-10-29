@@ -12,7 +12,7 @@ COPY onet_analysis /src/onet_analysis
 COPY onet_data_collector /src/onet_data_collector
 RUN pip install "/src[matching,serve]"
 
-ARG HF_REPO=Benjamin-V-Chan/onet-match
+ARG HF_REPO=BenjaminChan12/onet-match
 RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('${HF_REPO}', local_dir='/app/bundle')"
 ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 

@@ -325,7 +325,7 @@ _DEFAULT: MatchEngine | None = None
 _DEFAULT_LOCK = threading.Lock()
 
 
-DEFAULT_HF_REPO = "Benjamin-V-Chan/onet-match"
+DEFAULT_HF_REPO = "BenjaminChan12/onet-match"
 
 
 def download_bundle(repo_id: str | None = None) -> Path:

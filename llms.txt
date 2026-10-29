@@ -39,6 +39,7 @@ Backend Eng II".
 - [Applications](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/APPLICATIONS.md): EdTech, resume parsing, job-posting normalization, workforce analytics, integration patterns
 - [Results](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/RESULTS.md): accuracy by input type, calibration, ablations, error analysis
 - [Synthetic data](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/SYNTHETIC_DATA.md): how the training and test text was generated
+- [Model on the Hugging Face Hub](https://huggingface.co/BenjaminChan12/onet-match): pretrained bundle and model card
 - [O*NET data collector](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/COLLECTOR.md): bulk database download and the O*NET Web Services client
 
 ## Optional

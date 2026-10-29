@@ -40,7 +40,7 @@ print(result.profile["riasec_code"])      # aggregate interest code, e.g. "RIC"
 
 The package imports as `onet_match` and provides the `onet-match` command.
 The first call downloads the pretrained model bundle (about 0.5 GB) from the
-Hugging Face Hub and caches it.
+Hugging Face Hub ([BenjaminChan12/onet-match](https://huggingface.co/BenjaminChan12/onet-match)) and caches it.
 
 ```bash
 onet-match match "Excel, QuickBooks, payroll, AP/AR"          # CLI (add --json for JSON)

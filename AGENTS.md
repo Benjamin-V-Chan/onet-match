@@ -7,7 +7,7 @@
   `MatchResult` with `.matches` (a list of `OccupationMatch`) and `.profile`.
   `.to_dict()` gives JSON-ready output.
 - The first call downloads the model bundle (about 0.5 GB) from the Hugging
-  Face Hub. Set `ONET_MATCH_BUNDLE` to a local bundle directory to stay
+  Face Hub (`BenjaminChan12/onet-match`). Set `ONET_MATCH_BUNDLE` to a local bundle directory to stay
   offline.
 - Load the engine once and reuse it: `default_engine()` caches it, and each
   query takes about 50 ms on CPU or MPS after loading.
