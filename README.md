@@ -26,7 +26,7 @@ Real outputs of the served model, saved in `outputs/examples/readme_examples.jso
 ## Quickstart
 
 ```bash
-pip install "onet-match[matching] @ git+https://github.com/Benjamin-V-Chan/onet-match"
+pip install "onet-match[matching]"
 ```
 
 ```python
@@ -44,7 +44,7 @@ Hugging Face Hub ([BenjaminChan12/onet-match](https://huggingface.co/BenjaminCha
 
 ```bash
 onet-match match "Excel, QuickBooks, payroll, AP/AR"          # CLI (add --json for JSON)
-pip install "onet-match[matching,serve] @ git+https://github.com/Benjamin-V-Chan/onet-match"
+pip install "onet-match[matching,serve]"
 onet-match serve --port 8000                                   # REST API
 curl -s localhost:8000/match -H 'content-type: application/json' \
      -d '{"text": "ran the robotics club'\''s CAD team", "top_k": 3}'

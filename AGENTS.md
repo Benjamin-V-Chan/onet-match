@@ -2,7 +2,7 @@
 
 ## Using onet-match from another project
 
-- `pip install "onet-match[matching] @ git+https://github.com/Benjamin-V-Chan/onet-match"`
+- `pip install "onet-match[matching]"`
 - `from onet_match import match`. Then `match(text, top_k=5)` returns a
   `MatchResult` with `.matches` (a list of `OccupationMatch`) and `.profile`.
   `.to_dict()` gives JSON-ready output.
