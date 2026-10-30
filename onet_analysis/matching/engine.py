@@ -361,7 +361,7 @@ def match(text: str, top_k: int = 5, *, bundle: str | Path | None = None) -> Mat
     """Match one free-text input to its closest O*NET occupations.
 
     >>> from onet_analysis.matching import match
-    >>> result = match("I love drawing and figuring out how machines work")
+    >>> result = match("I love weather, maps and tracking storms")
     >>> [(m.title, m.confidence) for m in result.matches]
     """
     return default_engine(bundle).match(text, top_k=top_k)

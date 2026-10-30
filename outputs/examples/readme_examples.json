@@ -1,110 +1,122 @@
 [
   {
-    "query": "Sr. Backend Eng II",
-    "top": [
-      [
-        "15-1254.00",
-        "Web Developers",
-        0.4307
-      ],
-      [
-        "15-1252.00",
-        "Software Developers",
-        0.102
-      ],
-      [
-        "15-1232.00",
-        "Computer User Support Specialists",
-        0.0728
-      ]
-    ],
-    "riasec": "CIR"
-  },
-  {
-    "query": "Looking for someone to keep our trucks on the road, diesel exp a plus",
-    "top": [
-      [
-        "53-3032.00",
-        "Heavy and Tractor-Trailer Truck Drivers",
-        0.2993
-      ],
-      [
-        "49-3031.00",
-        "Bus and Truck Mechanics and Diesel Engine Specialists",
-        0.2058
-      ],
-      [
-        "53-3033.00",
-        "Light Truck Drivers",
-        0.1755
-      ]
-    ],
-    "riasec": "RCI"
-  },
-  {
-    "query": "ran the robotics club's CAD team",
+    "use_case": "Career exploration",
+    "input_style": "student activity",
+    "query": "designed our robot in CAD and wired its circuits for my high school robotics team",
     "top": [
       [
         "17-2199.08",
         "Robotics Engineers",
-        0.5217
+        0.378
       ],
       [
         "17-3024.01",
         "Robotics Technicians",
-        0.2266
+        0.2796
       ],
       [
         "17-3024.00",
         "Electro-Mechanical and Mechatronics Technologists and Technicians",
-        0.0638
+        0.1169
       ]
     ],
     "riasec": "RIC"
   },
   {
-    "query": "built a weather station with an Arduino and logged the data online",
+    "use_case": "Career exploration",
+    "input_style": "interests",
+    "query": "I love weather, maps and tracking storms",
     "top": [
       [
         "19-2021.00",
         "Atmospheric and Space Scientists",
-        0.3892
+        0.8688
       ],
       [
-        "19-4012.01",
-        "Precision Agriculture Technicians",
-        0.2213
+        "53-5021.00",
+        "Captains, Mates, and Pilots of Water Vessels",
+        0.0464
       ],
       [
-        "19-4099.03",
-        "Remote Sensing Technicians",
-        0.1118
+        "19-3092.00",
+        "Geographers",
+        0.0203
       ]
     ],
     "riasec": "IRC"
   },
   {
-    "query": "I love drawing and figuring out how machines work",
+    "use_case": "Skills-based hiring",
+    "input_style": "required skills",
+    "query": "Must know survival analysis, R, SAS and clinical trial data",
     "top": [
       [
-        "17-3013.00",
-        "Mechanical Drafters",
-        0.4079
+        "15-2041.01",
+        "Biostatisticians",
+        0.6037
       ],
       [
-        "51-9162.00",
-        "Computer Numerically Controlled Tool Programmers",
-        0.1955
+        "11-9121.01",
+        "Clinical Research Coordinators",
+        0.1555
       ],
       [
-        "51-4021.00",
-        "Extruding and Drawing Machine Setters, Operators, and Tenders, Metal and Plastic",
-        0.1352
+        "15-2051.02",
+        "Clinical Data Managers",
+        0.0485
       ]
     ],
-    "riasec": "RCI"
+    "riasec": "ICS"
   },
   {
+    "use_case": "Skills-based hiring",
+    "input_style": "required skills",
+    "query": "Must know Solidity, smart contracts and Ethereum",
+    "top": [
+      [
+        "15-1299.07",
+        "Blockchain Engineers",
+        0.8086
+      ],
+      [
+        "13-2099.01",
+        "Financial Quantitative Analysts",
+        0.0367
+      ],
+      [
+        "15-1252.00",
+        "Software Developers",
+        0.0196
+      ]
+    ],
+    "riasec": "CIE"
+  },
+  {
+    "use_case": "Resume parsing",
+    "input_style": "resume bullet",
+    "query": "Led a team of 12 nurses on a cardiac ICU night shift",
+    "top": [
+      [
+        "29-1141.03",
+        "Critical Care Nurses",
+        0.4153
+      ],
+      [
+        "29-1141.01",
+        "Acute Care Nurses",
+        0.2983
+      ],
+      [
+        "29-1141.00",
+        "Registered Nurses",
+        0.0701
+      ]
+    ],
+    "riasec": "SIC"
+  },
+  {
+    "use_case": "Resume parsing",
+    "input_style": "skill list",
     "query": "Excel, QuickBooks, payroll, AP/AR",
     "top": [
       [
@@ -126,24 +138,49 @@
     "riasec": "CER"
   },
   {
-    "query": "Must know survival analysis, R, SAS and clinical trial data",
+    "use_case": "Learner profiles",
+    "input_style": "structured profile",
+    "query": "skills: Python, SQL, Tableau; interests: sports statistics",
     "top": [
       [
-        "15-2041.01",
-        "Biostatisticians",
-        0.6037
+        "15-2041.00",
+        "Statisticians",
+        0.5882
       ],
       [
-        "11-9121.01",
-        "Clinical Research Coordinators",
-        0.1555
+        "43-9111.00",
+        "Statistical Assistants",
+        0.1407
       ],
       [
-        "15-2051.02",
-        "Clinical Data Managers",
-        0.0485
+        "15-2051.00",
+        "Data Scientists",
+        0.1332
       ]
     ],
-    "riasec": "ICS"
+    "riasec": "ICR"
+  },
+  {
+    "use_case": "Job-posting normalization",
+    "input_style": "JSON posting",
+    "query": "{\"title\": \"Wind Turbine Tech\", \"requirements\": [\"climbing\", \"hydraulics\", \"electrical troubleshooting\"]}",
+    "top": [
+      [
+        "49-9081.00",
+        "Wind Turbine Service Technicians",
+        0.8122
+      ],
+      [
+        "17-2199.10",
+        "Wind Energy Engineers",
+        0.1096
+      ],
+      [
+        "51-8013.04",
+        "Hydroelectric Plant Technicians",
+        0.0191
+      ]
+    ],
+    "riasec": "RCI"
   }
 ]

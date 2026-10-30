@@ -32,8 +32,8 @@ and projects, and portfolio, advising and project-based-learning tools collect
 similar material. These texts are rich but unstructured, written in a student's
 own words:
 
-- *"I love drawing and figuring out how machines work"*
-- *"ran the robotics club's CAD team"*
+- *"I love weather, maps and tracking storms"*
+- *"designed our robot in CAD and wired its circuits for my high school robotics team"*
 - *"built a website for my mom's bakery and ran their Instagram"*
 - *"good at explaining math to younger kids; patient"*
 

@@ -16,12 +16,13 @@ const $ = (id) => document.getElementById(id);
 let M = null; // loaded models and data
 
 const EXAMPLES = [
-  "ran the robotics club's CAD team",
+  "designed our robot in CAD and wired its circuits for my high school robotics team",
+  "I love weather, maps and tracking storms",
+  "Must know survival analysis, R, SAS and clinical trial data",
+  "Must know Solidity, smart contracts and Ethereum",
+  "Led a team of 12 nurses on a cardiac ICU night shift",
   "Excel, QuickBooks, payroll, AP/AR",
-  "I love drawing and figuring out how machines work",
-  "Looking for someone to keep our trucks on the road, diesel exp a plus",
-  "built a weather station with an Arduino and logged the data online",
-  "Sr. Backend Eng II",
+  "skills: Python, SQL, Tableau; interests: sports statistics",
 ];
 
 function status(text, busy = true) {

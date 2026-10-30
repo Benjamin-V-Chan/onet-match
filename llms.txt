@@ -17,7 +17,7 @@ Install: `pip install "onet-match[matching]"`
 
 ```python
 from onet_match import match
-r = match("ran the robotics club's CAD team", top_k=5)
+r = match("Must know survival analysis, R, SAS and clinical trial data", top_k=5)
 r.matches[0].soc, r.matches[0].title, r.matches[0].confidence   # ('17-2199.08', 'Robotics Engineers', 0.52)
 r.profile["riasec_code"]                                         # aggregate RIASEC code
 ```

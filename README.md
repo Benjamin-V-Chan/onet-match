@@ -15,13 +15,16 @@ skills, knowledge, RIASEC interests and a calibrated confidence score.
 - Also includes the O\*NET data pipeline it's built on: bulk database download,
   a Web Services client and analysis tools.
 
-| input | top match (confidence) |
-|---|---|
-| `ran the robotics club's CAD team` | Robotics Engineers, 17-2199.08 (0.52) |
-| `Excel, QuickBooks, payroll, AP/AR` | Payroll and Timekeeping Clerks, 43-3051.00 (0.49) |
-| `I love drawing and figuring out how machines work` | Mechanical Drafters, 17-3013.00 (0.41) |
-| `Looking for someone to keep our trucks on the road, diesel exp a plus` | Heavy and Tractor-Trailer Truck Drivers, 53-3032.00 (0.30); #2 Bus and Truck Mechanics (0.21) |
-| `Sr. Backend Eng II` | Web Developers, 15-1254.00 (0.43); #2 Software Developers (0.10). A miss: seniority-coded titles are a known weak spot |
+| use case | input | top match (confidence) |
+|---|---|---|
+| Career exploration | `designed our robot in CAD and wired its circuits for my high school robotics team` | Robotics Engineers, 17-2199.08 (0.38); #2 Robotics Technicians |
+| Career exploration | `I love weather, maps and tracking storms` | Atmospheric and Space Scientists, 19-2021.00 (0.87) |
+| Skills-based hiring | `Must know survival analysis, R, SAS and clinical trial data` | Biostatisticians, 15-2041.01 (0.60) |
+| Skills-based hiring | `Must know Solidity, smart contracts and Ethereum` | Blockchain Engineers, 15-1299.07 (0.81) |
+| Resume parsing | `Led a team of 12 nurses on a cardiac ICU night shift` | Critical Care Nurses, 29-1141.03 (0.42); #2 Acute Care Nurses |
+| Resume parsing | `Excel, QuickBooks, payroll, AP/AR` | Payroll and Timekeeping Clerks, 43-3051.00 (0.49) |
+| Career counseling | `skills: Python, SQL, Tableau; interests: sports statistics` | Statisticians, 15-2041.00 (0.59) |
+| Job-posting normalization | `{"title": "Wind Turbine Tech", "requirements": ["climbing", "hydraulics", "electrical troubleshooting"]}` | Wind Turbine Service Technicians, 49-9081.00 (0.81) |
 
 Real outputs of the served model, saved in `outputs/examples/readme_examples.json`.
 
@@ -34,10 +37,10 @@ pip install "onet-match[matching]"
 ```python
 from onet_match import match
 
-result = match("ran the robotics club's CAD team", top_k=5)
+result = match("Must know survival analysis, R, SAS and clinical trial data", top_k=5)
 for m in result.matches:
     print(m.soc, m.title, m.confidence)
-print(result.profile["riasec_code"])      # aggregate interest code, e.g. "RIC"
+print(result.profile["riasec_code"])      # aggregate interest code, e.g. "ICS"
 ```
 
 The package imports as `onet_match` and provides the `onet-match` command.
@@ -49,7 +52,7 @@ onet-match match "Excel, QuickBooks, payroll, AP/AR"          # CLI (add --json 
 pip install "onet-match[matching,serve]"
 onet-match serve --port 8000                                   # REST API
 curl -s localhost:8000/match -H 'content-type: application/json' \
-     -d '{"text": "ran the robotics club'\''s CAD team", "top_k": 3}'
+     -d '{"text": "I love weather, maps and tracking storms", "top_k": 3}'
 ```
 
 REST routes: `POST /match`, `POST /match/batch`, `GET /occupation/{soc}` and
@@ -94,12 +97,17 @@ interests across the matches, weighted by confidence.
   occupations and skills.
 - **Resume and profile parsing.** Code experience bullets and skill lists to
   SOC codes.
+- **Skills-based hiring and workforce planning.** Turn a list of required
+  skills into the roles that use them, to scope a job or find adjacent talent.
 - **Job-posting normalization.** Turn informal titles and descriptions into
   standard occupations.
 - **Workforce and labor-market analytics.** Batch-code large text collections.
 - **Career counseling tools.** Show the tasks and skills behind a suggestion.
 - **LLM agents.** Ground occupation questions in O\*NET instead of free
   generation (see [`llms.txt`](https://github.com/Benjamin-V-Chan/onet-match/blob/main/llms.txt)).
+
+Worked example: [onet-match-job-postings](https://github.com/Benjamin-V-Chan/onet-match-job-postings)
+codes 3,000 LinkedIn job postings and compares pay by occupation group.
 
 Details and integration patterns: [docs/APPLICATIONS.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/APPLICATIONS.md).
 
