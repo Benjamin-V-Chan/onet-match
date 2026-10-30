@@ -124,5 +124,26 @@
       ]
     ],
     "riasec": "CER"
+  },
+  {
+    "query": "Must know survival analysis, R, SAS and clinical trial data",
+    "top": [
+      [
+        "15-2041.01",
+        "Biostatisticians",
+        0.6037
+      ],
+      [
+        "11-9121.01",
+        "Clinical Research Coordinators",
+        0.1555
+      ],
+      [
+        "15-2051.02",
+        "Clinical Data Managers",
+        0.0485
+      ]
+    ],
+    "riasec": "ICS"
   }
 ]
