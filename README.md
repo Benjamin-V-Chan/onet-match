@@ -5,6 +5,7 @@ bullets, job postings, project descriptions, interest statements and skill
 lists go in. Ranked O\*NET-SOC occupations come out, each with key tasks,
 skills, knowledge, RIASEC interests and a calibrated confidence score.
 
+- **[Try it in your browser](https://huggingface.co/spaces/BenjaminChan12/onet-match)**: no install, and the model runs on your device.
 - Open source (MIT) and runs locally. No API key or account needed to match.
 - Fine-tuned bi-encoder + cross-encoder reranker over all 923 O\*NET 31.0
   occupations. Top-1 accuracy is **51%** on held-out O\*NET text and **65%** on
@@ -145,6 +146,17 @@ The validation and test tasks are removed from the occupation documents the
 models search, so no test text leaks into retrieval. Synthetic training and
 test text come from different LLMs. Details are in
 [docs/SYNTHETIC_DATA.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/SYNTHETIC_DATA.md).
+
+## In-browser demo
+
+The [demo Space](https://huggingface.co/spaces/BenjaminChan12/onet-match) runs the same pipeline client-side with
+[transformers.js](https://huggingface.co/docs/transformers.js): both models are
+exported to ONNX and quantized to int8 (about 130 MB, cached after the first
+visit). `demo/build.py` builds it from a bundle. Quantization and the browser
+runtime shift results slightly: on 800 test queries the browser picks the same
+top match as the Python package 95% of the time, with top-1 accuracy 61.5% vs
+62.6% (`outputs/demo/browser_parity.json`). Use the Python package for anything
+that matters.
 
 ## O\*NET data pipeline
 

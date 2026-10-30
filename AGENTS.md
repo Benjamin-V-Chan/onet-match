@@ -26,6 +26,8 @@
   - `onet_analysis/matching/`: catalog, datasets, retrieval, training,
     evaluation, serving, HTTP API, MCP server and report.
   - `onet_data_collector/`: O*NET bulk download and Web Services client.
+  - `demo/`: the in-browser Hugging Face Space (`build.py` exports data and int8
+    ONNX into the gitignored `demo/dist/`; `pipeline.js` mirrors the Python ranking).
   - `onet_analysis/` (top level): classic EDA, clustering and keyword
     attribution.
 - CLI entry point: `onet_analysis/cli.py` (`onet-match`, alias `onet-analyze`).

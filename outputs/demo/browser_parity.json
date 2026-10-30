@@ -1,0 +1,12 @@
+{
+  "what": "In-browser demo (int8 ONNX, transformers.js 4.3.2) vs the Python package (PyTorch) on the same queries",
+  "queries": "800 test-split queries: 400 sampled from pairs.parquet split=test and 400 from synthetic_eval.parquet (pandas sample, random_state=0), scored against the served bundle (all tasks in the occupation documents, so accuracies are higher than the held-out benchmark in docs/RESULTS.md)",
+  "bundle": "L5b_ft-bge-base+synth+ce+fuse",
+  "quantization": {"biencoder": "dynamic int8, per-channel (QInt8)", "reranker": "dynamic uint8"},
+  "pytorch_top1": 0.6262,
+  "python_onnx_int8_top1_agreement_with_pytorch": {"real": 0.968, "synthetic": 0.968},
+  "node_transformers_js_vs_python_onnx": {"top1_agreement": 1.0, "max_abs_confidence_diff": 0.0},
+  "chrome_wasm": {"top1": 0.615, "top1_agreement_with_pytorch": 0.954, "top1_agreement_with_python_onnx": 0.946,
+                  "abs_confidence_diff_median": 0.014, "abs_confidence_diff_p95": 0.063},
+  "measured": "2026-10-29"
+}
