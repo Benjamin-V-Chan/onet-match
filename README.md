@@ -1,5 +1,7 @@
 # onet-match
 
+[![PyPI](https://img.shields.io/pypi/v/onet-match)](https://pypi.org/project/onet-match/) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23824326.svg)](https://doi.org/10.5281/zenodo.23824326) [![MCP Registry](https://img.shields.io/badge/MCP_Registry-onet--match-blue)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.Benjamin-V-Chan/onet-match) [![Demo](https://img.shields.io/badge/demo-Hugging_Face-yellow)](https://huggingface.co/spaces/BenjaminChan12/onet-match)
+
 **Map free text about work to O\*NET occupations.** Job titles, resume
 bullets, job postings, project descriptions, interest statements and skill
 lists go in. Ranked O\*NET-SOC occupations come out, each with key tasks,
@@ -221,6 +223,7 @@ In 2026 it was rebuilt around semantic occupation matching, and the former
   author = {Chan, Benjamin},
   title  = {onet-match: mapping free text to O*NET occupations},
   url    = {https://github.com/Benjamin-V-Chan/onet-match},
+  doi    = {10.5281/zenodo.23824326},
   year   = {2026}
 }
 ```

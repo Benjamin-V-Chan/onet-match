@@ -4,6 +4,7 @@ title: "onet-match: mapping free text to O*NET occupations"
 authors:
   - family-names: Chan
     given-names: Benjamin
+doi: 10.5281/zenodo.23824326
 repository-code: "https://github.com/Benjamin-V-Chan/onet-match"
 license: MIT
 version: 0.3.3
