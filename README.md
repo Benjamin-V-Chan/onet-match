@@ -58,6 +58,8 @@ in [docs/API.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/AP
 
 ### Use from AI assistants (MCP)
 
+<!-- mcp-name: io.github.Benjamin-V-Chan/onet-match -->
+
 `onet-match mcp` runs a [Model Context Protocol](https://modelcontextprotocol.io)
 server with two read-only tools: `match_occupations(text, top_k)` and
 `get_occupation(soc)`. Add it to any MCP client (Claude Desktop, Cursor, VS

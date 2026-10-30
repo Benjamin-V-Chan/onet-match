@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "onet-match"
-version = "0.3.1"
+version = "0.3.2"
 description = "Map free text (job titles, resume lines, projects, interests, skills) to O*NET occupations with skills, tasks and calibrated confidence."
 readme = "README.md"
 requires-python = ">=3.10"

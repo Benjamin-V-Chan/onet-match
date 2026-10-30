@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Benjamin-V-Chan/onet-match",
+  "title": "onet-match",
+  "description": "Map job titles, resume lines, interests and skill lists to O*NET occupations. Runs locally.",
+  "repository": {
+    "url": "https://github.com/Benjamin-V-Chan/onet-match",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/Benjamin-V-Chan/onet-match",
+  "version": "0.3.2",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "onet-match",
+      "version": "0.3.2",
+      "runtimeHint": "uvx",
+      "runtimeArguments": [
+        {
+          "type": "named",
+          "name": "--from",
+          "value": "onet-match[mcp]"
+        }
+      ],
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ]
+    }
+  ]
+}
