@@ -294,3 +294,27 @@ def test_onet_match_alias():
     from onet_analysis.matching import match
 
     assert onet_match.match is match
+
+
+def test_mcp_server_tools(engine):
+    import asyncio
+
+    from mcp.server.mcpserver.exceptions import ToolError
+
+    from onet_analysis.matching.mcp_server import create_server
+
+    server = create_server(engine)
+    names = {t.name: t for t in asyncio.run(server.list_tools())}
+    assert set(names) == {"match_occupations", "get_occupation"}
+    assert names["match_occupations"].annotations.read_only_hint
+
+    out = asyncio.run(server.call_tool("match_occupations", {"text": "design a logo and poster typography",
+                                                             "top_k": 2})).structured_content
+    assert out["matches"][0]["soc"] == "27-1024.00" and len(out["matches"]) == 2
+    assert len(out["profile"]["riasec_code"]) == 3
+    rec = asyncio.run(server.call_tool("get_occupation", {"soc": "29-1141.00"})).structured_content
+    assert rec["title"] == "Registered Nurses"
+    with pytest.raises(ToolError, match="Unknown"):
+        asyncio.run(server.call_tool("get_occupation", {"soc": "00-0000.00"}))
+    with pytest.raises(ToolError, match="non-whitespace"):
+        asyncio.run(server.call_tool("match_occupations", {"text": "  "}))

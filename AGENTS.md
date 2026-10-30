@@ -13,6 +13,8 @@
   query takes about 50 ms on CPU or MPS after loading.
 - Service integration: `onet-match serve` exposes the HTTP contract in
   `docs/API.md`.
+- MCP: `pip install "onet-match[mcp]"`, then `onet-match mcp` (stdio) exposes
+  `match_occupations(text, top_k)` and `get_occupation(soc)`.
 
 ## Working in this repo
 
@@ -22,7 +24,7 @@
 - Packages:
   - `onet_match/`: public import alias.
   - `onet_analysis/matching/`: catalog, datasets, retrieval, training,
-    evaluation, serving, API and report.
+    evaluation, serving, HTTP API, MCP server and report.
   - `onet_data_collector/`: O*NET bulk download and Web Services client.
   - `onet_analysis/` (top level): classic EDA, clustering and keyword
     attribution.

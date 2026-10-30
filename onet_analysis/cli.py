@@ -78,6 +78,12 @@ def build_parser() -> argparse.ArgumentParser:
     p_serve.add_argument("--host", default="127.0.0.1")
     p_serve.add_argument("--port", type=int, default=8000)
 
+    p_mcp = sub.add_parser("mcp", help="Run the MCP server so AI assistants can call the matcher as a tool.")
+    p_mcp.add_argument("--bundle", default=None)
+    p_mcp.add_argument("--transport", choices=["stdio", "streamable-http"], default="stdio")
+    p_mcp.add_argument("--host", default="127.0.0.1")
+    p_mcp.add_argument("--port", type=int, default=8001)
+
     p_m = sub.add_parser("matching", help="Build data, train, evaluate and package matching models.")
     msub = p_m.add_subparsers(dest="matching_command", required=True)
 
@@ -233,6 +239,16 @@ def _run_serve(args) -> None:
     uvicorn.run(create_app(), host=args.host, port=args.port)
 
 
+def _run_mcp(args) -> None:
+    import os
+
+    if args.bundle:
+        os.environ["ONET_MATCH_BUNDLE"] = args.bundle
+    from .matching.mcp_server import run
+
+    run(args.transport, host=args.host, port=args.port)
+
+
 def _run_matching(args, paths) -> None:
     import json
 
@@ -299,6 +315,8 @@ def main(argv: list[str] | None = None) -> int:
             _run_match(args)
         elif args.command == "serve":
             _run_serve(args)
+        elif args.command == "mcp":
+            _run_mcp(args)
         elif args.command == "matching":
             _run_matching(args, paths)
     except (FileNotFoundError, KeyError, ValueError) as exc:

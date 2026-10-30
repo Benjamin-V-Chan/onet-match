@@ -9,7 +9,8 @@ skills, knowledge, RIASEC interests and a calibrated confidence score.
 - Fine-tuned bi-encoder + cross-encoder reranker over all 923 O\*NET 31.0
   occupations. Top-1 accuracy is **51%** on held-out O\*NET text and **65%** on
   messy human-style text, vs 21% and 17% for a TF-IDF baseline.
-- Python API, CLI, REST API (FastAPI) and Docker. About 47 ms per query on a laptop.
+- Python API, CLI, REST API (FastAPI), MCP server for AI assistants, and
+  Docker. About 47 ms per query on a laptop.
 - Also includes the O\*NET data pipeline it's built on: bulk database download,
   a Web Services client and analysis tools.
 
@@ -53,6 +54,28 @@ curl -s localhost:8000/match -H 'content-type: application/json' \
 REST routes: `POST /match`, `POST /match/batch`, `GET /occupation/{soc}` and
 `GET /health`. The full request and response contract and the Docker setup are
 in [docs/API.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/API.md).
+
+### Use from AI assistants (MCP)
+
+`onet-match mcp` runs a [Model Context Protocol](https://modelcontextprotocol.io)
+server with two read-only tools: `match_occupations(text, top_k)` and
+`get_occupation(soc)`. Add it to any MCP client (Claude Desktop, Cursor, VS
+Code and others):
+
+```json
+{
+  "mcpServers": {
+    "onet-match": {
+      "command": "uvx",
+      "args": ["--from", "onet-match[mcp]", "onet-match", "mcp"]
+    }
+  }
+}
+```
+
+Without [uv](https://docs.astral.sh/uv/), run `pip install "onet-match[mcp]"` and
+use `"command": "onet-match", "args": ["mcp"]`. For a remote server, use
+`onet-match mcp --transport streamable-http --port 8001`.
 
 ### What each match contains
 

@@ -24,7 +24,9 @@ r.profile["riasec_code"]                                         # aggregate RIA
 
 CLI: `onet-match match "<text>" --json`. REST: `onet-match serve`, then
 `POST /match {"text": "...", "top_k": 5}`, `POST /match/batch {"texts": [...]}`,
-`GET /occupation/{soc}` and `GET /health`.
+`GET /occupation/{soc}` and `GET /health`. MCP: `pip install "onet-match[mcp]"`,
+then `onet-match mcp` (stdio) with tools `match_occupations(text, top_k)` and
+`get_occupation(soc)`.
 
 Accuracy (held-out): top-1 51.1% and top-5 79.1% on O*NET text; top-1 65.4% and
 top-5 92.9% on informal text. The TF-IDF baseline gets 20.5% and 17.4% top-1.
