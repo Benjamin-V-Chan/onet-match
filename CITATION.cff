@@ -7,7 +7,7 @@ authors:
 doi: 10.5281/zenodo.23824326
 repository-code: "https://github.com/Benjamin-V-Chan/onet-match"
 license: MIT
-version: 0.3.3
+version: 0.3.4
 keywords:
   - O*NET
   - occupation classification

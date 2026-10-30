@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "onet-match"
-version = "0.3.3"
+version = "0.3.4"
 description = "Map free text (job titles, resume lines, projects, interests, skills) to O*NET occupations with skills, tasks and calibrated confidence."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -35,7 +35,7 @@ dependencies = [
 [project.optional-dependencies]
 plots = ["seaborn>=0.12"]
 # Dense retrieval, fine-tuning and reranking (TF-IDF/BM25 matching needs none of this).
-matching = ["torch>=2.2", "sentence-transformers[train]>=5.0", "transformers>=4.41", "huggingface_hub>=0.23"]
+matching = ["torch>=2.2", "sentence-transformers[train]>=6.2", "transformers>=4.41", "huggingface_hub>=0.23"]
 serve = ["fastapi>=0.110", "uvicorn>=0.29", "pydantic>=2"]
 mcp = ["onet-match[matching]", "mcp>=2.3"]
 synth = ["anthropic>=0.70", "openai>=1.40"]
