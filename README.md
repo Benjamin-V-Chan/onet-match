@@ -158,6 +158,8 @@ The validation and test tasks are removed from the occupation documents the
 models search, so no test text leaks into retrieval. Synthetic training and
 test text come from different LLMs. Details are in
 [docs/SYNTHETIC_DATA.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/SYNTHETIC_DATA.md).
+Every design decision, with its rationale, results and the alternatives
+rejected, is logged in [docs/DECISIONS.md](https://github.com/Benjamin-V-Chan/onet-match/blob/main/docs/DECISIONS.md).
 
 ## In-browser demo
 

@@ -8,12 +8,12 @@
     "source": "github"
   },
   "websiteUrl": "https://github.com/Benjamin-V-Chan/onet-match",
-  "version": "0.3.2",
+  "version": "0.3.4",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "onet-match",
-      "version": "0.3.2",
+      "version": "0.3.4",
       "runtimeHint": "uvx",
       "runtimeArguments": [
         {
